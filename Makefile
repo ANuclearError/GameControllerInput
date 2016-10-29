@@ -3,7 +3,7 @@
 #and may not be redistributed without written permission.
 
 #OBJS specifies which files to compile as part of the project
-OBJS = src/*
+OBJS = src/main.cpp src/view.cpp
 
 #CC specifies which compiler we're using
 CC = g++
