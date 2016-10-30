@@ -101,9 +101,9 @@ void render_background()
  * x the x coordinate of the key
  * y the y coordinate of the key
  */
-void render_key(int x, int y, const char* c)
+void render_key(int x, int y, const char* c, SDL_Color color)
 {
-    SDL_SetRenderDrawColor(renderer, KEY.r, KEY.g, KEY.b, KEY.a);
+    SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
     key_rect = {
         GAP + ((KEY_SIZE.w + GAP) * y),
         GAP + ((KEY_SIZE.h + GAP) * x) + TEXT_BOX_HEIGHT,

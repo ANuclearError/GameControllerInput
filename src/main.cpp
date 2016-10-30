@@ -7,6 +7,12 @@
 
 using namespace std;
 
+const int JOYSTICK_DEAD_ZONE = 16000;
+
+int x;
+int y;
+int size;
+
 /**
  * Refreshes the display, calling the view functions to render the keys, while
  * handling the logic of how the key is to be rendered.
@@ -19,10 +25,70 @@ void refresh()
         for (int j = 0; j < COLUMNS; j++)
         {
             string s(1, UPPER.keyboard[i][j]);
-            render_key(i, j, s.c_str());
+
+            if (i >= y && i < y + size && j >= x && j < x + size)
+            {
+                render_key(i, j, s.c_str(), HOVER);
+            }
+            else {
+                render_key(i, j, s.c_str(), STANDARD);
+            }
         }
     }
     update();
+}
+
+void joystick_event(SDL_Event* e)
+{
+    switch (e->caxis.axis)
+    {
+        case SDL_CONTROLLER_AXIS_LEFTX:
+            if (e->caxis.value < -JOYSTICK_DEAD_ZONE)
+            {
+                x = (x - 1);
+                if (x < 0)
+                {
+                    x = COLUMNS - size;
+                }
+            }
+            else if (e->caxis.value > JOYSTICK_DEAD_ZONE)
+            {
+                x = (x + 1) % (COLUMNS - size + 1);
+            }
+            break;
+        case SDL_CONTROLLER_AXIS_LEFTY:
+            if (e->caxis.value < -JOYSTICK_DEAD_ZONE)
+            {
+                y = (y - 1);
+                if (y < 0)
+                {
+                    y = ROWS - size;
+                }
+            }
+            else if (e->caxis.value > JOYSTICK_DEAD_ZONE)
+            {
+                y = (y + 1) % (ROWS - size + 1);
+            }
+            break;
+    }
+    refresh();
+}
+
+void handle_event(SDL_Event* e)
+{
+    Uint32 time = 0;
+    switch (e->type)
+    {
+        case SDL_CONTROLLERBUTTONUP:
+            cout << "Button up\n";
+            break;
+        case SDL_CONTROLLERBUTTONDOWN:
+            cout << "Button down\n";
+            break;
+        case SDL_CONTROLLERAXISMOTION:
+            joystick_event(e);
+            break;
+    }
 }
 
 /**
@@ -33,6 +99,10 @@ void refresh()
  */
 int main(int argc, char* args[])
 {
+    x = 0;
+    y = 0;
+    size = 3;
+
     if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
     {
         cout << "SDL_Error initialising: " << SDL_GetError() << "\n";
@@ -57,19 +127,12 @@ int main(int argc, char* args[])
             {
                 run = false;
             }
-            else if (e.type == SDL_CONTROLLERBUTTONUP)
+            else
             {
-                cout << "Button up\n";
+                handle_event(&e);
             }
-            else if (e.type == SDL_CONTROLLERBUTTONDOWN)
-            {
-                cout << "Button down\n";
-            }
-            // else if (e.type == SDL_CONTROLLERAXISMOTION || e.type == SDL_JOYAXISMOTION)
-            // {
-            //     cout << "Axis movement\n";
-            // }
         }
+        SDL_Delay(67);
     }
 
     keyboard_close();

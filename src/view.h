@@ -39,7 +39,12 @@ const SDL_Color BKGRD = {21, 21, 21, SDL_ALPHA_OPAQUE};
 /**
  * The standard colour of keys.
  */
-const SDL_Color KEY = {117, 117, 117, SDL_ALPHA_OPAQUE};
+const SDL_Color STANDARD = {117, 117, 117, SDL_ALPHA_OPAQUE};
+
+/**
+ * The standard colour of keys.
+ */
+const SDL_Color HOVER = {200, 230, 201, SDL_ALPHA_OPAQUE};
 
 /**
  * The colour of the characters being rendered.
@@ -76,7 +81,7 @@ void render_background();
 /**
  * Renders the key at the given coordinates.
  */ 
-void render_key(int x, int y, const char* c);
+void render_key(int x, int y, const char* c, SDL_Color color);
 
 /**
  * Presents the current render to the window.
