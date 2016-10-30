@@ -1,7 +1,11 @@
 #include <SDL.h>
+#include <SDL_ttf.h>
 #include <iostream>
+#include <string>
 #include "view.h"
 #include "keyboard.h"
+
+using namespace std;
 
 /**
  * Refreshes the display, calling the view functions to render the keys, while
@@ -14,7 +18,8 @@ void refresh()
     {
         for (int j = 0; j < COLUMNS; j++)
         {
-            render_key(i, j);
+            string s(1, UPPER.keyboard[i][j]);
+            render_key(i, j, s.c_str());
         }
     }
     update();
@@ -30,10 +35,9 @@ int main(int argc, char* args[])
 {
     if (!init())
     {
-        std::cout << "Failed to initialize.\n";
+        cout << "Failed to initialize.\n";
         return -1;
     }
-
     refresh();
     
     bool run = true;
@@ -47,6 +51,7 @@ int main(int argc, char* args[])
                 run = false;
             }
         }
+        SDL_Delay(67);
     }
     close();
     return 0;

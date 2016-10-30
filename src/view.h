@@ -39,7 +39,12 @@ const SDL_Color BKGRD = {21, 21, 21, SDL_ALPHA_OPAQUE};
 /**
  * The standard colour of keys.
  */
-const SDL_Color KEY = {117, 177, 177, SDL_ALPHA_OPAQUE};
+const SDL_Color KEY = {117, 117, 117, SDL_ALPHA_OPAQUE};
+
+/**
+ * The colour of the characters being rendered.
+ */
+const SDL_Color CHAR_COL = {255, 255, 255, SDL_ALPHA_OPAQUE};
 
 /**
  * The window of the keyboard.
@@ -50,6 +55,11 @@ extern SDL_Window* window;
  * The renderer of the keyboard, rendering the current layout of the keyboard.
  */
 extern SDL_Renderer* renderer;
+
+/**
+ * The font used to render characters.
+ */
+extern TTF_Font* font;
 
 /**
  * Initializes the system.
@@ -66,7 +76,7 @@ void render_background();
 /**
  * Renders the key at the given coordinates.
  */ 
-void render_key(int x, int y);
+void render_key(int x, int y, const char* c);
 
 /**
  * Presents the current render to the window.

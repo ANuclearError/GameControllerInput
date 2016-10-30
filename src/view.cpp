@@ -1,6 +1,9 @@
 #include <SDL.h>
+#include <SDL_ttf.h>
 #include <iostream>
 #include "view.h"
+
+using namespace std;
 
 /**
  * The window of the keyboard.
@@ -12,6 +15,20 @@ SDL_Window* window = NULL;
  */
 SDL_Renderer* renderer = NULL;
 
+/**
+ * The font for rendering characters.
+ */
+TTF_Font* font = NULL;
+
+/**
+ * The rectangle containing the character 
+ */
+SDL_Rect char_rect;
+
+/**
+ * The rectangle for drawing the keys background.
+ */
+SDL_Rect key_rect;
 
 /**
  * #include <SDL.h>
@@ -26,11 +43,24 @@ SDL_Renderer* renderer = NULL;
  */
 bool init()
 {
-    std::cout << "Beginning initialisation.\n";
+    cout << "Beginning initialisation.\n";
 
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
     {
-        std::cout << "SDL_Error initialising: " << SDL_GetError() << "\n";
+        cout << "SDL_Error initialising: " << SDL_GetError() << "\n";
+        return false;
+    }
+
+    if (TTF_Init() == -1)
+    {
+        cout << "TTF_Error initialising: " << TTF_GetError() << "\n";
+        return false;
+    }
+
+    font = TTF_OpenFont("arial.ttf", 72);
+    if (font == NULL)
+    {
+        cout << "TTF_Error opening font: " << TTF_GetError() << "\n";
         return false;
     }
 
@@ -42,18 +72,18 @@ bool init()
 
     if (window == NULL)
     {
-        std::cout << "SDL_Error creating window: " << SDL_GetError() << "\n";
+        cout << "SDL_Error creating window: " << SDL_GetError() << "\n";
         return false;
     }
 
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     if (renderer == NULL)
     {
-        std::cout << "SDL_Error creating renderer: " << SDL_GetError() << "\n";
+        cout << "SDL_Error creating renderer: " << SDL_GetError() << "\n";
         return false;
     }
 
-    std::cout << "Initialisation successful.\n";
+    cout << "Initialisation successful.\n";
     return true;
 }
 
@@ -78,16 +108,24 @@ void render_background()
  * x the x coordinate of the key
  * y the y coordinate of the key
  */
-void render_key(int x, int y)
+void render_key(int x, int y, const char* c)
 {
     SDL_SetRenderDrawColor(renderer, KEY.r, KEY.g, KEY.b, KEY.a);
-    SDL_Rect key = {
+    key_rect = {
         GAP + ((KEY_SIZE.w + GAP) * y),
         GAP + ((KEY_SIZE.h + GAP) * x) + TEXT_BOX_HEIGHT,
         KEY_SIZE.w,
         KEY_SIZE.h
     };
-    SDL_RenderFillRect(renderer, &key);
+    SDL_RenderFillRect(renderer, &key_rect);
+
+    SDL_Surface* surface = TTF_RenderText_Solid(font, c, CHAR_COL);
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_QueryTexture(texture, NULL, NULL, &char_rect.w, &char_rect.h);
+    char_rect.x = key_rect.x + (key_rect.w / 2) - (char_rect.w / 2);
+    char_rect.y = key_rect.y + (key_rect.h / 2) - (char_rect.h / 2);
+    SDL_FreeSurface(surface);
+    SDL_RenderCopy(renderer, texture, NULL, &char_rect);
 }
 
 /**
@@ -108,11 +146,12 @@ void update()
  */
 void close()
 {
-    std::cout << "Beginning shutdown.\n";
+    cout << "Beginning shutdown.\n";
     SDL_DestroyWindow(window);
     window = NULL;
     SDL_DestroyRenderer(renderer);
     renderer = NULL;
+    TTF_Quit();
     SDL_Quit();
-    std::cout << "Shutdown successful.\n";
+    cout << "Shutdown successful.\n";
 }

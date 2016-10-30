@@ -20,7 +20,7 @@ LIBRARY_PATHS = -LC:\libraries\lib
 COMPILER_FLAGS = -Wall -pedantic
 
 #LINKER_FLAGS specifies the libraries we're linking against
-LINKER_FLAGS = -lmingw32 -lSDL2main -lSDL2
+LINKER_FLAGS = -lmingw32 -lSDL2main -lSDL2 -lSDL2_ttf
 
 #OBJ_NAME specifies the name of our exectuable
 OBJ_NAME = keyboard
