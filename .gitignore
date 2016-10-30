@@ -29,3 +29,11 @@
 *.app
 
 *.ttf
+
+# LaTeX
+*.aux
+*.bbl
+*.blg
+*.log
+*.pdf
+*.gz
