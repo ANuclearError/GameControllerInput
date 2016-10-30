@@ -51,4 +51,20 @@ const struct Keyboard UPPER = {
     }
 };
 
+/**
+ * The controller being used to handle text input from the user.
+ */ 
+extern SDL_GameController* controller;
+
+/**
+ * Initialises the keyboard, ensuring that the controller is connected and
+ * available.
+ */
+bool keyboard_init();
+
+/**
+ * Handles the disconnection of the controller.
+ */
+void keyboard_close();
+
 #endif // KEYBOARD_H

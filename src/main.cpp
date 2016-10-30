@@ -33,11 +33,18 @@ void refresh()
  */
 int main(int argc, char* args[])
 {
-    if (!init())
+    if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
+    {
+        cout << "SDL_Error initialising: " << SDL_GetError() << "\n";
+        return -1;
+    }
+
+    if (!(view_init() && keyboard_init()))
     {
         cout << "Failed to initialize.\n";
         return -1;
     }
+
     refresh();
     
     bool run = true;
@@ -50,9 +57,22 @@ int main(int argc, char* args[])
             {
                 run = false;
             }
+            else if (e.type == SDL_CONTROLLERBUTTONUP)
+            {
+                cout << "Button up\n";
+            }
+            else if (e.type == SDL_CONTROLLERBUTTONDOWN)
+            {
+                cout << "Button down\n";
+            }
+            // else if (e.type == SDL_CONTROLLERAXISMOTION || e.type == SDL_JOYAXISMOTION)
+            // {
+            //     cout << "Axis movement\n";
+            // }
         }
-        SDL_Delay(67);
     }
-    close();
+
+    keyboard_close();
+    view_close();
     return 0;
 }

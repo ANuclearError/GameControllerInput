@@ -66,7 +66,7 @@ extern TTF_Font* font;
  *
  * Returns true if successful, otherwise false.
  */
-bool init();
+bool view_init();
 
 /**
  * Renders the given keyboard to the screen.
@@ -86,6 +86,6 @@ void update();
 /**
  * Performs a graceful shutdown of the system.
  */
-void close();
+void view_close();
 
 #endif // VIEW_H

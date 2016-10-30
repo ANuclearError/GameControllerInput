@@ -41,16 +41,9 @@ SDL_Rect key_rect;
  *
  * Returns true if successful, otherwise false.
  */
-bool init()
+bool view_init()
 {
-    cout << "Beginning initialisation.\n";
-
-    if (SDL_Init(SDL_INIT_VIDEO) < 0)
-    {
-        cout << "SDL_Error initialising: " << SDL_GetError() << "\n";
-        return false;
-    }
-
+    cout << "Beginning view initialisation.\n";
     if (TTF_Init() == -1)
     {
         cout << "TTF_Error initialising: " << TTF_GetError() << "\n";
@@ -83,7 +76,7 @@ bool init()
         return false;
     }
 
-    cout << "Initialisation successful.\n";
+    cout << "View initialisation successful.\n";
     return true;
 }
 
@@ -119,7 +112,7 @@ void render_key(int x, int y, const char* c)
     };
     SDL_RenderFillRect(renderer, &key_rect);
 
-    SDL_Surface* surface = TTF_RenderText_Solid(font, c, CHAR_COL);
+    SDL_Surface* surface = TTF_RenderText_Blended(font, c, CHAR_COL);
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
     SDL_QueryTexture(texture, NULL, NULL, &char_rect.w, &char_rect.h);
     char_rect.x = key_rect.x + (key_rect.w / 2) - (char_rect.w / 2);
@@ -144,7 +137,7 @@ void update()
  *
  * Shutdown everything created by SDL, ensuring that the shutdown is safe.
  */
-void close()
+void view_close()
 {
     cout << "Beginning shutdown.\n";
     SDL_DestroyWindow(window);
