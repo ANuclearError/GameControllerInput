@@ -40,6 +40,7 @@ void refresh()
 
 void joystick_event(SDL_Event* e)
 {
+    bool update = false;
     switch (e->caxis.axis)
     {
         case SDL_CONTROLLER_AXIS_LEFTX:
@@ -50,10 +51,12 @@ void joystick_event(SDL_Event* e)
                 {
                     x = COLUMNS - size;
                 }
+                update = true;
             }
             else if (e->caxis.value > JOYSTICK_DEAD_ZONE)
             {
                 x = (x + 1) % (COLUMNS - size + 1);
+                update = true;
             }
             break;
         case SDL_CONTROLLER_AXIS_LEFTY:
@@ -64,19 +67,24 @@ void joystick_event(SDL_Event* e)
                 {
                     y = ROWS - size;
                 }
+                update = true;
             }
             else if (e->caxis.value > JOYSTICK_DEAD_ZONE)
             {
                 y = (y + 1) % (ROWS - size + 1);
+                update = true;
             }
             break;
     }
-    refresh();
+
+    if (update) // Only want to redraw if necessary.
+    {
+        refresh();
+    }
 }
 
 void handle_event(SDL_Event* e)
 {
-    Uint32 time = 0;
     switch (e->type)
     {
         case SDL_CONTROLLERBUTTONUP:

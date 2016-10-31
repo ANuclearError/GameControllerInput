@@ -31,6 +31,16 @@ SDL_Rect char_rect;
 SDL_Rect key_rect;
 
 /**
+ * Pointer to the surface used to draw a character to the screen.
+ */
+SDL_Surface* surface = NULL;
+
+/**
+ * Pointer to the texture used to draw a character to screen.
+ */
+SDL_Texture* texture = NULL;
+
+/**
  * #include <SDL.h>
  * #include <iostream>
  *
@@ -103,6 +113,7 @@ void render_background()
  */
 void render_key(int x, int y, const char* c, SDL_Color color)
 {
+    // Draw the background
     SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
     key_rect = {
         GAP + ((KEY_SIZE.w + GAP) * y),
@@ -112,13 +123,19 @@ void render_key(int x, int y, const char* c, SDL_Color color)
     };
     SDL_RenderFillRect(renderer, &key_rect);
 
-    SDL_Surface* surface = TTF_RenderText_Blended(font, c, CHAR_COL);
-    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+    // Render the character
+    surface = TTF_RenderText_Blended(font, c, CHAR_COL);
+    texture = SDL_CreateTextureFromSurface(renderer, surface);
     SDL_QueryTexture(texture, NULL, NULL, &char_rect.w, &char_rect.h);
     char_rect.x = key_rect.x + (key_rect.w / 2) - (char_rect.w / 2);
     char_rect.y = key_rect.y + (key_rect.h / 2) - (char_rect.h / 2);
-    SDL_FreeSurface(surface);
     SDL_RenderCopy(renderer, texture, NULL, &char_rect);
+
+    // Now need to ensure we aren't eating 2 gigs of RAM.
+    SDL_FreeSurface(surface);
+    SDL_DestroyTexture(texture);
+    surface = NULL;
+    texture = NULL;
 }
 
 /**
