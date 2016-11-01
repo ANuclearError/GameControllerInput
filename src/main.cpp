@@ -47,6 +47,30 @@ void refresh()
     update();
 }
 
+void joystick_event(SDL_ControllerAxisEvent* e)
+{
+    switch (e->axis)
+    {
+        case SDL_CONTROLLER_AXIS_LEFTX:
+            cout << "Moving matrix left/right\n"; 
+            break;       
+        case SDL_CONTROLLER_AXIS_LEFTY:
+            cout << "Moving matrix up/down\n";
+            break;
+        case SDL_CONTROLLER_AXIS_RIGHTX:
+            cout << "Selecting character left/right\n";
+            break;
+        case SDL_CONTROLLER_AXIS_RIGHTY:
+            cout << "Selecting character up/down\n";
+            break;
+        case SDL_CONTROLLER_AXIS_TRIGGERLEFT:
+            cout << "Left trigger\n";
+        case SDL_CONTROLLER_AXIS_TRIGGERRIGHT:
+            cout << "Right trigger\n";
+            break;
+    }
+}
+
 /**
  * #include <SDL.h>
  * #include <iostream>
@@ -76,6 +100,8 @@ int main(int argc, char* args[])
     bool run = true;
     SDL_Event e;
 
+    Uint32 last = SDL_GetTicks();
+    cout << "Start tick: " << last << "\n";
     while (run)
     {
         while (SDL_PollEvent(&e) != 0)
@@ -83,6 +109,16 @@ int main(int argc, char* args[])
             if (e.type == SDL_QUIT)
             {
                 run = false;
+            }
+            else if (e.type == SDL_CONTROLLERAXISMOTION)
+            {
+                if (SDL_GetTicks() - last > 100) {
+                    Sint16 val = e.caxis.value;
+                    if (val > 8000 || val < - 8000) {
+                        joystick_event(&e.caxis);
+                        last = SDL_GetTicks();
+                    }
+                }
             }
         }
         SDL_Delay(67);
