@@ -12,9 +12,9 @@ const int JOYSTICK_DEAD_ZONE = 16000;
 int x;
 int y;
 int size;
-int pos = 0;
+int pos = -1;
 
-string input = "Hello1";
+string input = "";
 
 /**
  * Refreshes the display, calling the view functions to render the keys, while
@@ -29,7 +29,8 @@ void refresh()
         {
             string s(1, UPPER.keyboard[i][j]);
 
-            if (i == (y + pos / size) && j == (x + pos % size))
+            // Draw keyboard.
+            if (pos >= 0 && i == (y + pos / size) && j == (x + pos % size))
             {
                 render_key(i, j, s.c_str(), ENTERED);
             }

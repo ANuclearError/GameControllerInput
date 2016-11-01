@@ -144,6 +144,11 @@ void render_key(int x, int y, const char* c, SDL_Color color)
     texture = NULL;
 }
 
+/**
+ * #include <SDL.h>
+ *
+ * Renders the text entered by the user.
+ */
 void render_input(const char* text)
 {
     surface = TTF_RenderText_Blended(font, text, CHAR_COL);
@@ -155,6 +160,8 @@ void render_input(const char* text)
 }
 
 /**
+ * #include <SDL.h>
+ *
  * Presents the current render to the window.
  */
 void update()
