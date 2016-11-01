@@ -12,7 +12,7 @@ const int JOYSTICK_DEAD_ZONE = 16000;
 int x;
 int y;
 int size;
-int pos = -1;
+int pos = 0;
 
 string input = "Hello1";
 
@@ -44,74 +44,6 @@ void refresh()
     }
     render_input(input.c_str());
     update();
-}
-
-/**
- * Handles the joystick events.
- */
-void joystick_event(SDL_Event* e)
-{
-    bool update = false;
-    switch (e->caxis.axis)
-    {
-        case SDL_CONTROLLER_AXIS_LEFTX:
-            if (e->caxis.value < -JOYSTICK_DEAD_ZONE)
-            {
-                x = (x - 1);
-                if (x < 0)
-                {
-                    x = COLUMNS - size;
-                }
-                update = true;
-            }
-            else if (e->caxis.value > JOYSTICK_DEAD_ZONE)
-            {
-                x = (x + 1) % (COLUMNS - size + 1);
-                update = true;
-            }
-            break;
-        case SDL_CONTROLLER_AXIS_LEFTY:
-            if (e->caxis.value < -JOYSTICK_DEAD_ZONE)
-            {
-                y = (y - 1);
-                if (y < 0)
-                {
-                    y = ROWS - size;
-                }
-                update = true;
-            }
-            else if (e->caxis.value > JOYSTICK_DEAD_ZONE)
-            {
-                y = (y + 1) % (ROWS - size + 1);
-                update = true;
-            }
-            break;
-    }
-
-    if (update) // Only want to redraw if necessary.
-    {
-        refresh();
-    }
-}
-
-/**
- * Differentiates between different event types and then executed the related
- * function.
- */
-void handle_event(SDL_Event* e)
-{
-    switch (e->type)
-    {
-        case SDL_CONTROLLERBUTTONUP:
-            cout << "Button up\n";
-            break;
-        case SDL_CONTROLLERBUTTONDOWN:
-            cout << "Button down\n";
-            break;
-        case SDL_CONTROLLERAXISMOTION:
-            joystick_event(e);
-            break;
-    }
 }
 
 /**
@@ -150,10 +82,6 @@ int main(int argc, char* args[])
             if (e.type == SDL_QUIT)
             {
                 run = false;
-            }
-            else
-            {
-                handle_event(&e);
             }
         }
         SDL_Delay(67);

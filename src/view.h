@@ -34,27 +34,27 @@ const struct Size KEY_SIZE = {150, 100};
 /**
  * The background colour of the keyboard.
  */
-const SDL_Color BKGRD = {21, 21, 21, SDL_ALPHA_OPAQUE};
+const SDL_Color BKGRD = {255, 255, 255, SDL_ALPHA_OPAQUE};
 
 /**
  * The standard colour of keys.
  */
-const SDL_Color STANDARD = {117, 117, 117, SDL_ALPHA_OPAQUE};
+const SDL_Color STANDARD = {225, 225, 225, SDL_ALPHA_OPAQUE};
 
 /**
  * The colour of keys that are being hovered over.
  */
-const SDL_Color HOVER = {200, 230, 201, SDL_ALPHA_OPAQUE};
+const SDL_Color HOVER = {150, 150, 150, SDL_ALPHA_OPAQUE};
 
 /**
  * The colour of keys that are being clicked on.
  */
-const SDL_Color ENTERED = {76, 175, 80, SDL_ALPHA_OPAQUE};
+const SDL_Color ENTERED = {75, 75, 75, SDL_ALPHA_OPAQUE};
 
 /**
  * The colour of the characters being rendered.
  */
-const SDL_Color CHAR_COL = {255, 255, 255, SDL_ALPHA_OPAQUE};
+const SDL_Color CHAR_COL = {0, 0, 0, SDL_ALPHA_OPAQUE};
 
 /**
  * The window of the keyboard.
