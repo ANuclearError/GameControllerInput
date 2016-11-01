@@ -1,6 +1,7 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 #include <iostream>
+#include <string>
 #include "view.h"
 
 using namespace std;
@@ -29,6 +30,11 @@ SDL_Rect char_rect;
  * The rectangle for drawing the keys background.
  */
 SDL_Rect key_rect;
+
+/**
+ * The area where the input text is added.
+ */
+SDL_Rect input_rect;
 
 /**
  * Pointer to the surface used to draw a character to the screen.
@@ -136,6 +142,16 @@ void render_key(int x, int y, const char* c, SDL_Color color)
     SDL_DestroyTexture(texture);
     surface = NULL;
     texture = NULL;
+}
+
+void render_input(const char* text)
+{
+    surface = TTF_RenderText_Blended(font, text, CHAR_COL);
+    texture = SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_QueryTexture(texture, NULL, NULL, &input_rect.w, &input_rect.h);
+    input_rect.x = 50;
+    input_rect.y = (TEXT_BOX_HEIGHT / 2) - (input_rect.h / 2);
+    SDL_RenderCopy(renderer, texture, NULL, &input_rect);
 }
 
 /**
