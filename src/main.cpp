@@ -106,19 +106,22 @@ int main(int argc, char* args[])
     {
         while (SDL_PollEvent(&e) != 0)
         {
+            switch (e.type)
+            {
+                case SDL_QUIT:
+                    run = false;
+                    break;
+                case SDL_CONTROLLERAXISMOTION:
+                    joystick_event(e.caxis);
+                    break;
+                case SDL_CONTROLLERBUTTONUP:
+                case SDL_CONTROLLERBUTTONDOWN:
+                    button_event(e.cbutton);
+                    break;
+            }
             if (e.type == SDL_QUIT)
             {
                 run = false;
-            }
-            else if (e.type == SDL_CONTROLLERAXISMOTION)
-            {
-                if (SDL_GetTicks() - last > 100) {
-                    Sint16 val = e.caxis.value;
-                    if (val > 8000 || val < - 8000) {
-                        joystick_event(&e.caxis);
-                        last = SDL_GetTicks();
-                    }
-                }
             }
         }
         SDL_Delay(67);
