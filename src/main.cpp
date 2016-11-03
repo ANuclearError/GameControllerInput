@@ -1,133 +1,38 @@
-#include <SDL.h>
-#include <SDL_ttf.h>
-#include <iostream>
-#include <string>
+/******************************************************************************
+*
+ * @file    main.cpp
+ * @author  Aidan O'Grady
+ * @date    2016-11-01
+ * @version 0.1
+ *
+ * The controller of the system, creating the view and model of the application
+ * and handling interaction between them.
+ *
+ ******************************************************************************/
+#include <SFML/Window.hpp>
 #include "view.h"
-#include "keyboard.h"
-
-using namespace std;
-
-const int JOYSTICK_DEAD_ZONE = 16000;
-
-int x;
-int y;
-int size;
-int pos = -1;
-
-string input = "";
-
-/**
- * Refreshes the display, calling the view functions to render the keys, while
- * handling the logic of how the key is to be rendered.
- */
-void refresh()
-{
-    render_background();
-    for (int i = 0; i < ROWS; i++)
-    {
-        for (int j = 0; j < COLUMNS; j++)
-        {
-            string s(1, UPPER.keyboard[i][j]);
-
-            // Draw keyboard.
-            if (pos >= 0 && i == (y + pos / size) && j == (x + pos % size))
-            {
-                render_key(i, j, s.c_str(), ENTERED);
-            }
-            else if (i >= y && i < y + size && j >= x && j < x + size)
-            {
-                render_key(i, j, s.c_str(), HOVER);
-            }
-            else {
-                render_key(i, j, s.c_str(), STANDARD);
-            }
-        }
-    }
-    render_input(input.c_str());
-    update();
-}
-
-void joystick_event(SDL_ControllerAxisEvent* e)
-{
-    switch (e->axis)
-    {
-        case SDL_CONTROLLER_AXIS_LEFTX:
-            cout << "Moving matrix left/right\n"; 
-            break;       
-        case SDL_CONTROLLER_AXIS_LEFTY:
-            cout << "Moving matrix up/down\n";
-            break;
-        case SDL_CONTROLLER_AXIS_RIGHTX:
-            cout << "Selecting character left/right\n";
-            break;
-        case SDL_CONTROLLER_AXIS_RIGHTY:
-            cout << "Selecting character up/down\n";
-            break;
-        case SDL_CONTROLLER_AXIS_TRIGGERLEFT:
-            cout << "Left trigger\n";
-        case SDL_CONTROLLER_AXIS_TRIGGERRIGHT:
-            cout << "Right trigger\n";
-            break;
-    }
-}
 
 /**
  * #include <SDL.h>
- * #include <iostream>
  *
  * The main control loop of the system, handling events etc.
  */
 int main(int argc, char* args[])
 {
-    x = 0;
-    y = 0;
-    size = 3;
-
-    if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
+    View keyboard_view(1555, 525);
+     
+    while (keyboard_view.is_open())
     {
-        cout << "SDL_Error initialising: " << SDL_GetError() << "\n";
-        return -1;
-    }
-
-    if (!(view_init() && keyboard_init()))
-    {
-        cout << "Failed to initialize.\n";
-        return -1;
-    }
-
-    refresh();
-    
-    bool run = true;
-    SDL_Event e;
-
-    Uint32 last = SDL_GetTicks();
-    cout << "Start tick: " << last << "\n";
-    while (run)
-    {
-        while (SDL_PollEvent(&e) != 0)
+        sf::Event event = keyboard_view.get_event();
+        switch (event.type)
         {
-            switch (e.type)
-            {
-                case SDL_QUIT:
-                    run = false;
-                    break;
-                case SDL_CONTROLLERAXISMOTION:
-                    joystick_event(e.caxis);
-                    break;
-                case SDL_CONTROLLERBUTTONUP:
-                case SDL_CONTROLLERBUTTONDOWN:
-                    button_event(e.cbutton);
-                    break;
-            }
-            if (e.type == SDL_QUIT)
-            {
-                run = false;
-            }
+            case sf::Event::Closed:
+                keyboard_view.close();
+                break;
+            default:
+                break;
         }
-        SDL_Delay(67);
     }
 
-    keyboard_close();
-    view_close();
     return 0;
 }

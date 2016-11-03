@@ -3,16 +3,16 @@
 #and may not be redistributed without written permission.
 
 #OBJS specifies which files to compile as part of the project
-OBJS = src/main.cpp src/view.cpp src/keyboard.cpp
+OBJS = src/main.cpp src/view.cpp
 
 #CC specifies which compiler we're using
 CC = g++
 
 #INCLUDE_PATHS specifies the additional include paths we'll need
-INCLUDE_PATHS = -IC:\libraries\include\SDL2
+INCLUDE_PATHS = -IC:\libraries\SFML-2.4.0\include
 
 #LIBRARY_PATHS specifies the additional library paths we'll need
-LIBRARY_PATHS = -LC:\libraries\lib
+LIBRARY_PATHS = -LC:\libraries\SFML-2.4.0\lib
 
 #COMPILER_FLAGS specifies the additional compilation options we're using
 # -w suppresses all warnings
@@ -20,7 +20,7 @@ LIBRARY_PATHS = -LC:\libraries\lib
 COMPILER_FLAGS = -Wall -pedantic
 
 #LINKER_FLAGS specifies the libraries we're linking against
-LINKER_FLAGS = -lmingw32 -lSDL2main -lSDL2 -lSDL2_ttf
+LINKER_FLAGS = -lmingw32 -lsfml-graphics -lsfml-window -lsfml-system
 
 #OBJ_NAME specifies the name of our exectuable
 OBJ_NAME = keyboard
