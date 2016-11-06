@@ -51,7 +51,41 @@ be more interested in changes made in usability and quality of live improvements
 to these systems as well.
 % subsection user_persona (end)
 
+\subsection{Task Analysis} % (fold)
+\label{sub:task_analysis}
+The purpose of text entry is to allow the user to provide some sort of
+information to a system, whether it be a name, password or search query. The
+user is providing this information to perform some goal, such as sending a
+message to a friend, or logging into a service. Using the controller (or voice
+commands if it is provided, though that is outside the scope of this project),
+the user will select the keys one by one until their phrase is completed.
 
+The task of text entry is one that is rather small and somewhat frequent. It is
+likely during every play session, a user would have to input text at least once.
+Each case of user input should be done as fast as possible, depending on the
+context of the text input. Text entry is always something that the user selects
+to do, whether it be the user wishing to send a message or search a store, this
+means that the user is aware it is about to happen. An exception would be if the
+user is playing a game that requires a character to be named without the user
+knowing beforehand, although this does not present a problem to the user.
+
+As part of text entry, the user must already know what it is they wish to type.
+In the case of an action such as searching, then the user should already be
+prepared to know (more or less) exactly what they wish to type, while if the
+user is sending a message or naming a character, then it may be that they are
+not fully sure what to type, and thus will be slowed down while thinking. 
+
+In addition, they must be familiar with the layout of the keyboard being
+displayed on screen, which is why I have wanted to focus on retaining the Qwerty
+layout, unlike Steam's Big Picture Mode style of text input (Section
+\ref{sub:steam_big_picture_mode}), in which Valve chose to deviate from the 
+standard, instead opting for alphabetical order. While alphabetical order is
+still familiar to the user, even the youngest users, Qwerty being standard in
+the context of text entry can result in the user being confused. Talking to
+some users (with technical background, being fellow students), they can recall
+anecdotal instances of some minor discomfort when required to to do text entry
+with a keyboard in alphabetical order.
+% subsection task_analysis (end)
 % section target_users_main_tasks (end)
 \newpage
 \end{document}
