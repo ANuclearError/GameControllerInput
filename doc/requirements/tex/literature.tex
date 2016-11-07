@@ -3,9 +3,105 @@
 \section{Literature Review} % (fold)
 \label{sec:literature_review}
 
-2-3 pages providing an overview of the existing literature closely related to
-your topic.
+While the general field of text entry has been studied in great detail, text
+entry with relation to game controllers specifically is not as refined. However,
+there are still plenty of papers that have been written on this topic, each
+looking into ways of tackling the same problems that I have found in text entry
+with game controllers. The papers being reviewed are those with have some focus
+on games controllers, rather than looking at text entry in a more general
+setting.
 
+\subsection{Dual Stick Methods} % (fold)
+\label{sub:dual_stick_methods}
+One common strategy found in these studies regarding controller text entry is
+the `dual stick' approach to text entry. These are systems in which the majority
+of user input comes from the two analogue sticks. Wilson \& Agrawala
+\cite{Wilson:2006:TEU:1124772.1124844} of Microsoft Research propose a system
+in which the keyboard is split into two sections, left and right, with the
+left stick controlling the left side's cursor, and the right stick acting the
+same on the right. The inspiration behind this system was that regular keyboard
+use `builds motor memory of the keyboard layout within each hand', since normal
+keyboard each sees each hand stick to its own half of the keyboard. The goal of
+their proposed system to `exploit such motor memory' in their own system. Their
+results showed that their dual stick system was easy to learn albeit with a
+slightly increased error rate as well. 
+
+A similar dual stick approach would be found in K\"{o}ltringer et al's
+\cite{Koltringer:2007:TWG:1268517.1268536} `TwoStick' paper. TwoStick presents
+the unusual approach of providing a 9x9 grid divided into 9 zones (like Sudoku),
+with the 9 zones corresponding to the movement of one stick. In each sub-zone,
+the other stick controls the character being selected. Their results showed a
+predicted outcome of TwoStick's learning curve being a detriment to performance
+in initial uses, but as users got used to this new system, they would improve
+and type faster than with the traditional QWERTY single selection layout. 
+K\"{o}ltringer et al report that there was `only a minute difference' amongst
+novice users between their system and the one by Wilson \& Agrawala, which I
+found very intriguing.
+% subsection dual_stick_methods (end)
+
+\subsection{Stylus Inspired Methods} % (fold)
+\label{sub:stylus_inspired_methods}
+Another common theme found through researching papers about this topic was that
+there had been some approaches that took inspiration from research into text
+entry using a stylus, such as for a PDA. The goal in these systems is to
+represent character selection through the movement of the joystick, the movement
+of the joystick being a representation of the of the character.
+
+EdgeWrite \cite{Wobbrock:2004:JTE:985921.986126}
+\cite{Wobbrock:2003:EST:964696.964703} by Wobbrock et al is one such example, in
+which movement of the joystick draws a pattern which is recognized as a
+character or action. By converting the EdgeWrite technique to joystick, tests
+were performed to evaluate performing, finding that the speed of writing had
+increased by around one word per minute. However, it was found that this system
+was more error prone compared to the selection keyboard (another name for the
+standard on-screen keyboard).
+
+Another such stylus based approach study was made by Isokoski \& Raisamo
+\cite{Isokoski:2004:QMT:1028014.1028031}, which was based on the Quikwriting
+system by Perlin \cite{Perlin:1998:QCS:288392.288613}. This is perhaps the most
+unusual of all systems found in the research of this topic, and thus the system
+feels very overwhelming at first glance in my opinion. The system works by 
+splitting the joystick into 8 sections with one central section too. The
+joystick is moved to one of these 8 sections, containing a group of characters,
+and is moved again, which selects a specific character 
+\cite[Figure~2]{Isokoski:2004:QMT:1028014.1028031}. While originally designed
+for stylus, it can be seen why Isokoski \& Raisamo felt it could be used in this
+space as well. The results found in this study showed 13 words per minutes
+in the joystick space, which is certainly impressive. However, the authors do
+concede to the learning difficulty this method presents to the user.
+% subsection stylus_inspired_methods (end)
+
+\subsection{Multi-tap} % (fold)
+\label{sub:multi-tap}
+The final approach that was found in the research of this topic was a multi-tap
+approach similar to those found on pre-smartphone mobile phones. A study by
+K\"{o}ltringer et al \cite{Koltringer:2007:GCT:1240866.1241033} performed a
+comparison between the selection keyboard and a multi-tap system. The multi-tap
+system was implemented by Sony for the Playstation 3. However, the results
+found showed that  the `alphabetic selection keyboard outperforms the multi-tap
+selection keyboard for both novice and expert users', with clear preference
+towards the former as well. This shows that multi-tap should not be considered
+further.
+% subsection multi-tap (end)
+
+\subsection{Conclusions} % (fold)
+\label{sub:conclusions}
+As Section \ref{sec:market_analysis} will show, the video game industry largely
+ignored the studies into this topic. With the exception of Wilson \& Agrawala,
+none of these approaches can be found in the current market, which is likely
+because it does not deviate far from the current on-screen selection keyboard
+found today, merely adding an additional cursor. In addition, the study that
+examined an alternative approach already implemented (multi-tap) showed that it
+was not a useful text entry system in this problem space, showing the need for
+further investigation.
+
+Through all these papers, a common evaluation strategy can be formed. The
+metrics that are considered most are the words per minute (WPM) and the error
+rates found from using these systems. The studies also allowed users several
+hours of experience with the systems through the evaluation process, it is
+unlikely that such time will be available for this project, with the ideal goal
+being having a two week period to perform my own evaluation.
+% subsection conclusions (end)
 % section literature_review (end)
 \newpage
 \end{document}
