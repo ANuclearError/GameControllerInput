@@ -17,11 +17,21 @@
 extern SDL_Window* window;
 
 /**
+ * The renderer, rendering keys and current position of cursor.
+ */
+extern SDL_Renderer* renderer;
+
+/**
  * Attempts to create the window.
  *
  * @return true if creation successful, otherwise returns false.
  */
 bool view_init();
+
+/**
+ * Refreshes the display to match current situation.
+ */
+void repaint();
 
 /**
  * Destroys everything relating to view.

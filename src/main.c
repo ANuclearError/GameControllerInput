@@ -12,7 +12,10 @@
 #include <SDL2/SDL.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include "keyboard.h"
 #include "view.h"
+
+int k_index = 0;
 
 /**
  * #include <SDL.h>
@@ -35,6 +38,8 @@ int main(int argc, char* args[])
 
     bool run = true;
     SDL_Event e;
+
+    repaint();
 
     while (run)
     {

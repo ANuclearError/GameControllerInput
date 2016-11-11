@@ -47,4 +47,9 @@ const struct Size WIN_SIZE = {1555, 525};
  */
 const struct Size KEY_SIZE = {150, 100};
 
+/**
+ The background colour of the keyboard.
+ */
+const SDL_Color BKGRD = {255, 255, 255, SDL_ALPHA_OPAQUE};
+
 #endif // VIEWDATA_H
