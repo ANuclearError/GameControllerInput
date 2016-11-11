@@ -3,10 +3,10 @@
 #and may not be redistributed without written permission.
 
 #OBJS specifies which files to compile as part of the project
-OBJS = src/main.cpp src/view.cpp
+OBJS = src/main.c src/view.c
 
 #CC specifies which compiler we're using
-CC = g++
+CC = gcc
 
 #INCLUDE_PATHS specifies the additional include paths we'll need
 INCLUDE_PATHS = -IC:\libraries\SDL-2.0\include

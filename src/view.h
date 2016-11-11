@@ -1,44 +1,31 @@
 /******************************************************************************
 *
- * @file    view.cpp
+ * @file    view.h
  * @author  Aidan O'Grady
- * @date    2016-11-01
+ * @date    2016-11-11
  * @version 0.1
  *
- * Contains the components required for creating a window, and displaying
- * information on the window.
+ * Contains all the variables and functions required for the view.
  *
  ******************************************************************************/
 #ifndef VIEW_H
 #define VIEW_H
 
-class View
-{
-private:
-    /**
-     * The SFML window that displays all information.
-     */
-    SDL_Window* window;
+/**
+ * The window that displays everything in relation to the keyboard.
+ */
+extern SDL_Window* window;
 
-public:
-    /**
-     * Constructs a new View.
-     *
-     * @param width the width of the View's window
-     * @param height the height of the View's window
-     */
-    View(int width, int height);
+/**
+ * Attempts to create the window.
+ *
+ * @return true if creation successful, otherwise returns false.
+ */
+bool view_init();
 
-    /**
-     * Waits for an Event to occur and returns.
-     *
-     * @return the first event from queue
-     */
-    SDL_Event get_event();
+/**
+ * Destroys everything relating to view.
+ */
+void view_close();
 
-    /**
-     * Closes the view's window.
-     */
-    void close();
-};
 #endif // VIEW_H

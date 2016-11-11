@@ -2,7 +2,7 @@
 *
  * @file    main.cpp
  * @author  Aidan O'Grady
- * @date    2016-11-01
+ * @date    2016-11-11
  * @version 0.1
  *
  * The controller of the system, creating the view and model of the application
@@ -10,6 +10,8 @@
  *
  ******************************************************************************/
 #include <SDL2/SDL.h>
+#include <stdio.h>
+#include <stdbool.h>
 #include "view.h"
 
 /**
@@ -19,20 +21,32 @@
  */
 int main(int argc, char* args[])
 {
-    View keyboard_view(1555, 525);
+    if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
+    {
+        printf("SDL_Error initialisation: %s\n", SDL_GetError());
+        return -1;
+    }
+
+    if (!view_init())
+    {
+        printf("Failed to initialise view\n");
+        return -1;
+    }
+
     bool run = true;
+    SDL_Event e;
+
     while (run)
     {
-        SDL_Event event = keyboard_view.get_event();
-        switch (event.type)
+        while (SDL_PollEvent(&e) != 0)
         {
-            case SDL_QUIT:
+            if (e.type == SDL_QUIT)
+            {
                 run = false;
-                break;
-            default:
-                break;
+            }
         }
     }
-    keyboard_view.close();
+
+    view_close();
     return 0;
 }
