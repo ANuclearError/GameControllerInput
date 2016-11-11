@@ -3,18 +3,45 @@
 \section{Requirements} % (fold)
 \label{sec:requirements}
 
-1 page (table format probably with accompanying text)
+\subsection{Input} % (fold)
+\label{sub:input}
+The user must be able to use the left analogue stick of the controller to move
+the cursor matrix on the display. This indicates which group of characters the
+user wishes to select from. The user must also be able to use the right stick to
+then select which specific character they wish to input, with the direction the
+stick is pushed selecting the character. Pressing down on the right stick must
+select the middle character of the matrix.
 
-\subsection{Function Requirements} % (fold)
-\label{sub:function_requirements}
+The user must also be able to use the trigger buttons to move the caret either
+left or right depending on which is pressed. The user must also be able to
+backspace or add a space using the bumpers in a similar way.
 
-% subsection function_requirements (end)
+The user must also be able to switch between upper and lower case letters (or
+punctuation marks). The user must be able to submit the text by pressing the
+start button. The user should be able to cancel the text input by pressing a
+button, although for prototype purposes, this will simply clear text instead.
+% subsection input (end)
 
-\subsection{Non-Functional Requirements} % (fold)
-\label{sub:non_functional_requirements}
+\subsection{Character Sets} % (fold)
+\label{sub:character_sets}
+The system must allow the user to input alphanumeric characters, both upper and
+lower case, with basic punctuation marks to round the resulting matrix to 40
+characters (10 numbers, 26 letters and 4 punctuation marks). The system should
+also support the remaining punctuation marks. The system could allow for accents
+to be applied to certain characters as well, while it would also support
+additional languages such as Greek or Cyrillic.
+% subsection character_sets (end)
 
-% subsection non_functional_requirements (end)
-
+\subsection{Display} % (fold)
+\label{sub:display}
+The on-screen keyboard must display a matrix of characters that acts as the
+keyboard. It must also highlight the part of this matrix that corresponds to
+where the cursor is currently positioned. It must also show the user the current
+text they have input, as well as the position of the caret indicating where text
+is being input. The display should respond quickly to any input from the user,
+in order to prevent the user from needlessly waiting. The display could also
+display predictive text, although this feature is already provided by consoles,
+and would not need changed to integrate with this new system.
+% subsection display (end)
 % section requirements (end)
-\newpage
 \end{document}
