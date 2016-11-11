@@ -9,7 +9,7 @@
  * and handling interaction between them.
  *
  ******************************************************************************/
-#include <SFML/Window.hpp>
+#include <SDL2/SDL.h>
 #include "view.h"
 
 /**
@@ -20,19 +20,19 @@
 int main(int argc, char* args[])
 {
     View keyboard_view(1555, 525);
-     
-    while (keyboard_view.is_open())
+    bool run = true;
+    while (run)
     {
-        sf::Event event = keyboard_view.get_event();
+        SDL_Event event = keyboard_view.get_event();
         switch (event.type)
         {
-            case sf::Event::Closed:
-                keyboard_view.close();
+            case SDL_QUIT:
+                run = false;
                 break;
             default:
                 break;
         }
     }
-
+    keyboard_view.close();
     return 0;
 }

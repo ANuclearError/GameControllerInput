@@ -18,7 +18,7 @@ private:
     /**
      * The SFML window that displays all information.
      */
-    sf::Window window;
+    SDL_Window* window;
 
 public:
     /**
@@ -34,14 +34,7 @@ public:
      *
      * @return the first event from queue
      */
-    sf::Event get_event();
-
-    /**
-     * Returns whether or not the view's window is open.
-     *
-     * @return whether or not the window is still open.
-     */
-    bool is_open();
+    SDL_Event get_event();
 
     /**
      * Closes the view's window.

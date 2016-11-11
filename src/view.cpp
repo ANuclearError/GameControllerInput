@@ -8,7 +8,7 @@
  * The implementation of the View class defined in view.h
  *
  ******************************************************************************/
-#include <SFML/Window.hpp>
+#include <SDL2/SDL.h>
 #include "view.h"
 #include <iostream>
 
@@ -22,8 +22,16 @@
  */
 View::View(int width, int height)
 {
-    window.create(sf::VideoMode(width, height), sf::String("Keyboard")); 
-    window.setFramerateLimit(60);
+    std::cout << "Initialising view\n";
+    window = SDL_CreateWindow("Keyboard",
+        SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+        width, height,
+        SDL_WINDOW_SHOWN
+    );
+
+    if (window == NULL){
+        std::cout << "SDL_Error creating window: " << SDL_GetError() << "\n";
+    }
     std::cout << "Window opened\n";
 }
 
@@ -32,29 +40,14 @@ View::View(int width, int height)
  *
  * @return the first event from queue
  */
-sf::Event View::get_event()
+SDL_Event View::get_event()
 {
-    sf::Event event;
-    while (window.waitEvent(event))
+    SDL_Event event;
+    while (SDL_PollEvent(&event) != 0)
     {
         return event;
     }
     return event;
-}
-
-/**
- * #include <SDL.h>
- *
- * Presents the current render to the window.
- *
- * Returns whether or not the view's window is open. This is a wrapper function
- * for the Window class.
- *
- * @return whether or not the window is still open.
- */
-bool View::is_open()
-{
-    return window.isOpen();
 }
 
 /**
@@ -63,5 +56,8 @@ bool View::is_open()
  */
 void View::close()
 {
-    window.close();
+    std::cout << "Beginning shutdown\n";
+    SDL_DestroyWindow(window);
+    window = NULL;
+    std::cout << "Shutdown successful\n";
 }

@@ -9,10 +9,10 @@ OBJS = src/main.cpp src/view.cpp
 CC = g++
 
 #INCLUDE_PATHS specifies the additional include paths we'll need
-INCLUDE_PATHS = -IC:\libraries\SFML-2.4.0\include
+INCLUDE_PATHS = -IC:\libraries\SDL-2.0\include
 
 #LIBRARY_PATHS specifies the additional library paths we'll need
-LIBRARY_PATHS = -LC:\libraries\SFML-2.4.0\lib
+LIBRARY_PATHS = -LC:\libraries\SDL-2.0\lib
 
 #COMPILER_FLAGS specifies the additional compilation options we're using
 # -w suppresses all warnings
@@ -20,7 +20,7 @@ LIBRARY_PATHS = -LC:\libraries\SFML-2.4.0\lib
 COMPILER_FLAGS = -Wall -pedantic
 
 #LINKER_FLAGS specifies the libraries we're linking against
-LINKER_FLAGS = -lmingw32 -lsfml-graphics -lsfml-window -lsfml-system
+LINKER_FLAGS = -lmingw32 -lSDL2main -lSDL2
 
 #OBJ_NAME specifies the name of our exectuable
 OBJ_NAME = keyboard
