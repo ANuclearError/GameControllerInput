@@ -21,13 +21,29 @@ typedef enum Case
 	CASE_TOTAL
 } Case;
 
+typedef enum Mode
+{
+	MODE_STANDARD,
+	MODE_HOVER,
+	MODE_SELECTED,
+	MODE_TOTAL
+} Mode;
+
 typedef struct Keyboard
 {
 	Case k_case;
 	char k_keys[ROWS][COLUMNS];
 } Keyboard;
 
-const Keyboard keyboards[CASE_TOTAL] = {
+typedef struct Cursor
+{
+	int x;
+	int y;
+	int size;
+	int selected;
+} Cursor;
+
+const Keyboard KEYBOARDS[CASE_TOTAL] = {
 	{	
 		CASE_LOWER,
 		{

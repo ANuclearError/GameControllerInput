@@ -10,6 +10,7 @@
  *
  ******************************************************************************/
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 #include <stdio.h>
 #include <stdbool.h>
 #include "viewdata.h"
@@ -26,6 +27,26 @@ SDL_Window* window = NULL;
 SDL_Renderer* renderer = NULL;
 
 /**
+ * The font for rendering characters.
+ */
+TTF_Font* font = NULL;
+
+/**
+ * Pointer to the surface used to draw a character to the screen.
+ */
+SDL_Surface* surface = NULL;
+
+/**
+ * Pointer to the texture used to draw a character to screen.
+ */
+SDL_Texture* texture = NULL;
+
+/**
+ * The rectangle containing the character 
+ */
+SDL_Rect char_rect;
+
+/**
  * Attempts to create the window.
  *
  * @return true if creation successful, otherwise returns false.
@@ -33,6 +54,19 @@ SDL_Renderer* renderer = NULL;
 bool view_init()
 {
 	printf("Creating view\n");
+
+    if (TTF_Init() == -1)
+    {
+        printf("TTF_Error initialising: %s\n", TTF_GetError());
+        return false;
+    }
+
+    font = TTF_OpenFont("arial.ttf", 72);
+    if (font == NULL)
+    {
+        printf("TTF_Error opening font: %s\n", TTF_GetError());
+        return false;
+	}
 
 	window = SDL_CreateWindow("Keyboard",
 		SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
@@ -57,13 +91,67 @@ bool view_init()
 }
 
 /**
+ * Renders the key using the given position, character and mode.
+ *
+ * @param x the x position on matrix
+ * @param y the y position on matrix
+ * @param key the character to be rendered
+ * @param mode the mode this key is in (see Mode in Keyboard.h)
+ */
+void render_key(int x, int y, char key, int mode)
+{	
+	SDL_Color color;
+	switch (mode) // Choose colour of key based on mode.
+	{
+		case 1:
+			color = HOVER_COL;
+			break;
+		case 2:
+			color = ENTER_COL;
+			break;
+		default:
+			color = KEY_COL;
+			break;
+	}
+    SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
+    SDL_Rect key_rect = {
+        GAP + ((KEY_SIZE.w + GAP) * y),
+        GAP + ((KEY_SIZE.h + GAP) * x) + TEXT_BOX_HEIGHT,
+        KEY_SIZE.w,
+        KEY_SIZE.h
+    };
+	SDL_RenderFillRect(renderer, &key_rect);
+
+	// Render the character
+    surface = TTF_RenderText_Blended(font, &key, CHAR_COL);
+    texture = SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_QueryTexture(texture, NULL, NULL, &char_rect.w, &char_rect.h);
+    char_rect.x = key_rect.x + (key_rect.w / 2) - (char_rect.w / 2);
+    char_rect.y = key_rect.y + (key_rect.h / 2) - (char_rect.h / 2);
+    SDL_RenderCopy(renderer, texture, NULL, &char_rect);
+
+    // Now need to ensure we aren't eating 2 gigs of RAM.
+    SDL_FreeSurface(surface);
+    SDL_DestroyTexture(texture);
+    surface = NULL;
+	texture = NULL;
+}
+
+/**
+ * Clears the current screen.
+ */
+void clear_render()
+{
+	SDL_RenderClear(renderer);
+	SDL_SetRenderDrawColor(renderer, BG_COL.r, BG_COL.g, BG_COL.b, BG_COL.a);
+	SDL_RenderFillRect(renderer, NULL);
+}
+
+/**
  * Refreshes the display to match current situation.
  */
 void repaint()
 {
-	SDL_RenderClear(renderer);
-	SDL_SetRenderDrawColor(renderer, BKGRD.r, BKGRD.g, BKGRD.b, BKGRD.a);
-	SDL_RenderFillRect(renderer, NULL);
 	SDL_RenderPresent(renderer);
 }
 

@@ -12,21 +12,21 @@
 #define VIEW_H
 
 /**
- * The window that displays everything in relation to the keyboard.
- */
-extern SDL_Window* window;
-
-/**
- * The renderer, rendering keys and current position of cursor.
- */
-extern SDL_Renderer* renderer;
-
-/**
  * Attempts to create the window.
  *
  * @return true if creation successful, otherwise returns false.
  */
 bool view_init();
+
+/**
+ * Clears the current screen.
+ */
+void clear_render();
+
+/**
+ * Renders a key with the given position and cursor state.
+ */
+void render_key(int x, int y, char key, int mode);
 
 /**
  * Refreshes the display to match current situation.

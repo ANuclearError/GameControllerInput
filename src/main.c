@@ -17,6 +17,43 @@
 
 int k_index = 0;
 
+Cursor k_cursor = {0, 0, 3, -1};
+
+int get_mode(int x, int y)
+{
+    int x_start = k_cursor.x;
+    int x_end = k_cursor.x + k_cursor.size;
+    int y_start = k_cursor.y;
+    int y_end = k_cursor.y + k_cursor.size;
+
+    if (x >= x_start && x < x_end && y >= y_start && y < y_end)
+    {
+        if (x == (k_cursor.selected / k_cursor.size) &&
+            y == (k_cursor.selected % k_cursor.size))
+        {
+            return MODE_SELECTED;
+        }
+        return MODE_HOVER;
+    }
+    
+    return MODE_STANDARD;
+}
+
+void refresh()
+{
+    clear_render();
+    for (int i = 0; i < ROWS; ++i)
+    {
+        for (int j = 0; j < COLUMNS; ++j)
+        {
+            char key = KEYBOARDS[k_index].k_keys[i][j];
+            int mode = get_mode(i, j);
+            render_key(i, j, key, mode);
+        }
+    }
+    repaint();
+}
+
 /**
  * #include <SDL.h>
  *
@@ -36,11 +73,9 @@ int main(int argc, char* args[])
         return -1;
     }
 
+    refresh();
     bool run = true;
     SDL_Event e;
-
-    repaint();
-
     while (run)
     {
         while (SDL_PollEvent(&e) != 0)
@@ -50,6 +85,8 @@ int main(int argc, char* args[])
                 run = false;
             }
         }
+        refresh();
+        SDL_Delay(67);
     }
 
     view_close();

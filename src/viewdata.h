@@ -48,8 +48,29 @@ const struct Size WIN_SIZE = {1555, 525};
 const struct Size KEY_SIZE = {150, 100};
 
 /**
- The background colour of the keyboard.
+ * The background colour of the keyboard.
  */
-const SDL_Color BKGRD = {255, 255, 255, SDL_ALPHA_OPAQUE};
+const SDL_Color BG_COL = {21, 21, 21, SDL_ALPHA_OPAQUE};
+
+/**
+ * The standard colour of keys
+ */
+const SDL_Color KEY_COL = {117, 117, 117, SDL_ALPHA_OPAQUE};
+
+/**
+ * The standard colour of keys
+ */
+const SDL_Color HOVER_COL = {200, 230, 201, SDL_ALPHA_OPAQUE};
+
+/**
+ * The standard colour of keys
+ */
+const SDL_Color ENTER_COL = {76, 175, 80, SDL_ALPHA_OPAQUE};
+
+/**
+* The colour of the characters being rendered.
+*/
+const SDL_Color CHAR_COL = {255, 255, 255, SDL_ALPHA_OPAQUE};
+
 
 #endif // VIEWDATA_H
