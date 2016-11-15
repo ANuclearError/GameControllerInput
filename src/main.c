@@ -16,8 +16,28 @@
 #include "keyboard.h"
 #include "view.h"
 
+/**
+ * The keyboard's cursor
+ */
 Cursor k_cursor = {0, 0, 3, -1};
 
+/**
+ * The user input array
+ */
+char input[128];
+
+/**
+ * The position where text is being entered.
+ */
+int pos = 0;
+
+/**
+ * Returns the mode that the given position in keyboard matrix corresponds to.
+ *
+ * @param x the x position
+ * @param y the y position
+ * @return selected mode if entered, hover mode is hovered, standard otherwise.
+ */
 int get_mode(int x, int y)
 {
     int x_start = k_cursor.x;
@@ -38,9 +58,25 @@ int get_mode(int x, int y)
     return MODE_STANDARD;
 }
 
+/**
+ * Returns the character that has been selected by user.
+ *
+ * @return selected character
+ */
+char get_selected_key()
+{
+    int x = (k_cursor.selected / k_cursor.size);
+    int y = (k_cursor.selected % k_cursor.size);
+    return KEYBOARD[k_cursor.x + x][k_cursor.y + y];
+}
+
+/**
+ * Refreshes the display, handling rendering of characters and input.
+ */
 void refresh()
 {
     clear_render();
+    render_input(input);
     for (int i = 0; i < ROWS; ++i)
     {
         for (int j = 0; j < COLUMNS; ++j)
@@ -78,9 +114,9 @@ int main(int argc, char* args[])
     bool key_press = false;
     Uint32 key_press_ticks = SDL_GetTicks();
 
-    int move_x = 0;
-    int move_y = 0;
-    Uint32 move_ticks = SDL_GetTicks();
+    // int move_x = 0;
+    // int move_y = 0;
+    // Uint32 move_ticks = SDL_GetTicks();
 
     SDL_Event e;
     while (run)
@@ -99,13 +135,24 @@ int main(int argc, char* args[])
                     key_press = true;
                     key_press_ticks = SDL_GetTicks();
                     k_cursor.selected = get_position(e.key.keysym.sym);
+                    input[pos] = get_selected_key();
+                    pos++;
+                    printf("Input: %s\tPos: %d\n", input, pos);
+                }
+                else if (key == SDLK_BACKSPACE)
+                {
+                    input[pos - 1] = '\0';
+                    if (pos > 0)
+                    {
+                        pos--;
+                    }
+                    printf("Input: %s\tPos: %d\n", input, pos);
                 }
             }
         }
         refresh();
         if (key_press && (SDL_GetTicks() - key_press_ticks) > 100)
         {
-            printf("Clearing\n");
             k_cursor.selected = -1;
             key_press = false;
             refresh();

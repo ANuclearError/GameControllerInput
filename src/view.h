@@ -24,6 +24,13 @@ bool view_init();
 void clear_render();
 
 /**
+ * Renders the input text.
+ *
+ * @param The input to be displayed
+ */
+void render_input(char input[]);
+
+/**
  * Renders a key with the given position and cursor state.
  *
  * @param x the x position on matrix

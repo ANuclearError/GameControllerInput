@@ -47,6 +47,11 @@ SDL_Texture* texture = NULL;
 SDL_Rect char_rect;
 
 /**
+ * The area where the input text is added.
+ */
+SDL_Rect input_rect;
+
+/**
  * Attempts to create the window.
  *
  * @return true if creation successful, otherwise returns false.
@@ -88,6 +93,21 @@ bool view_init()
 
 	printf("View created\n");
 	return true;
+}
+
+/**
+ * Renders the input text.
+ *
+ * @param The input to be displayed
+ */
+void render_input(char input[])
+{
+    surface = TTF_RenderText_Blended(font, input, CHAR_COL);
+    texture = SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_QueryTexture(texture, NULL, NULL, &input_rect.w, &input_rect.h);
+    input_rect.x = 50;
+    input_rect.y = (TEXT_BOX_HEIGHT / 2) - (input_rect.h / 2);
+	SDL_RenderCopy(renderer, texture, NULL, &input_rect);
 }
 
 /**
