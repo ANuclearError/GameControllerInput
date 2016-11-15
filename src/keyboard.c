@@ -13,46 +13,48 @@
 #include "keydata.h"
 #include "keyboard.h"
 
-int get_position(SDL_Keycode key)
+Command get_command(SDL_Keycode key)
 {
-	switch (key)
+	if (key == SDLK_w || key == SDLK_a || key == SDLK_s || key == SDLK_d)
 	{
-		case SDLK_KP_1:
-		return 6;
-		break;
-		case SDLK_KP_2:
-		return 7;
-		break;
-		case SDLK_KP_3:
-		return 8;
-		break;
-		case SDLK_KP_4:
-		return 3;
-		break;
-		case SDLK_KP_5:
-		return 4;
-		break;
-		case SDLK_KP_6:
-		return 5;
-		break;
-		case SDLK_KP_7:
-		return 0;
-		break;
-		case SDLK_KP_8:
-		return 1;
-		break;
-		case SDLK_KP_9:
-		return 2;
-		break;
+		return COMMAND_MOVE;
 	}
-	return -1;
+
+	if (key >= SDLK_KP_1 && key <= SDLK_KP_9)
+	{
+		return COMMAND_SELECT;
+	}
+	
+	if (key == SDLK_SPACE)
+	{
+		return COMMAND_SPACE;
+	}
+
+	if (key == SDLK_BACKSPACE)
+	{
+		return COMMAND_BACKSPACE;
+	}
+	return COMMAND_TOTAL;
 }
 
 void update_cursor(SDL_Keycode key, Cursor* k_cursor)
 {
-    if (key >= SDLK_KP_1 && key <= SDLK_KP_9)
+	if (key >= SDLK_KP_1 && key <= SDLK_KP_9)
 	{
-		k_cursor->selected = get_position(key);
+		int selected = key - NUMPAD_START; // Get value from 1-9
+
+		// Need to handle numpad format
+		if (selected > 6) {
+			k_cursor->key = selected - 7;
+		}
+		else if (selected < 4)
+		{
+			k_cursor->key = selected + 5;
+		}
+		else
+		{
+			k_cursor->key = selected - 1;
+		}
 	}
 	else if (key == SDLK_w)
 	{

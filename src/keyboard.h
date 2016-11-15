@@ -12,7 +12,9 @@
 #ifndef KEYBOARD_H
 #define KEYBOARD_H
 
-int get_position(SDL_Keycode key);
+#define NUMPAD_START 1073741912
+
+Command get_command(SDL_Keycode key);
 
 void update_cursor(SDL_Keycode key, Cursor* k_cursor);
 

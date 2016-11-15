@@ -59,8 +59,8 @@ int get_mode(int x, int y)
 
     if (x >= x_start && x < x_end && y >= y_start && y < y_end)
     {
-        if (x == (k_cursor.selected % k_cursor.size) &&
-            y == (k_cursor.selected / k_cursor.size))
+        if (x == (k_cursor.key % k_cursor.size) &&
+            y == (k_cursor.key / k_cursor.size))
         {
             return MODE_SELECTED;
         }
@@ -77,9 +77,9 @@ int get_mode(int x, int y)
  */
 char get_selected_key()
 {
-    int x = (k_cursor.selected / k_cursor.size);
-    int y = (k_cursor.selected % k_cursor.size);
-    return KEYBOARD[k_cursor.x + x][k_cursor.y + y];
+    int x = (k_cursor.key % k_cursor.size);
+    int y = (k_cursor.key / k_cursor.size);
+    return KEYBOARD[k_cursor.y + y][k_cursor.x + x];
 }
 
 /**
@@ -94,11 +94,30 @@ void refresh()
         for (int j = 0; j < COLS; ++j)
         {
             char key = KEYBOARD[i][j];
+            // j and i are swapped in order due to fact that j is x column and
+            // i is row column, it confused me.
             int mode = get_mode(j, i);
             render_key(j, i, key, mode);
         }
     }
     repaint();
+}
+
+/**
+ * Prints the current matrix that is being hovered over by the cursor.
+ */
+void print_matrix()
+{
+    for (int i = 0; i < k_cursor.size; ++i)
+    {
+        printf("\t");
+        for (int j = 0; j < k_cursor.size; ++j)
+        {
+            printf("%c ", KEYBOARD[k_cursor.y + i][k_cursor.x + j]);
+        }
+        printf("\n");
+    }
+    printf("\n");
 }
 
 /**
@@ -108,28 +127,25 @@ void refresh()
  */
 int main(int argc, char* args[])
 {
+    // Init everything
     if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
     {
         printf("SDL_Error initialisation: %s\n", SDL_GetError());
         return -1;
     }
-
     if (!view_init())
     {
         printf("Failed to initialise view\n");
         return -1;
     }
 
-    refresh();
+    bool move = false;
+    bool select = false;
+    Uint32 last_move = SDL_GetTicks();
+    Uint32 last_select = SDL_GetTicks();
+
+    print_matrix();
     bool run = true;
-
-    bool key_press = false;
-    Uint32 key_press_ticks = SDL_GetTicks();
-
-    // int move_x = 0;
-    // int move_y = 0;
-    // Uint32 move_ticks = SDL_GetTicks();
-
     SDL_Event e;
     while (run)
     {
@@ -141,22 +157,51 @@ int main(int argc, char* args[])
             }
             else if (e.type == SDL_KEYDOWN)
             {
-                update_cursor(e.key.keysym.sym, &k_cursor); 
-                if (k_cursor.selected > -1)
+                Command com = get_command(e.key.keysym.sym);
+                switch (com)
                 {
-                    key_press = true;
-                    input[pos] = get_selected_key();
+                    case COMMAND_MOVE:
+                    case COMMAND_SELECT:
+                    update_cursor(e.key.keysym.sym, &k_cursor);
+                    if (k_cursor.key > -1 && !select)
+                    {
+                        select = true;
+                        last_select = SDL_GetTicks();
+                        input[pos] = get_selected_key();
+                        pos++;
+                        printf("Input: %s\n", input);
+                    }
+                    else if (!move)
+                    {
+                        move = true;
+                        last_move = SDL_GetTicks();
+                    }
+                    break;
+                    case COMMAND_SPACE:
+                    input[pos] = ' ';
                     pos++;
-                    printf("Input: %s\tPos: %d\n", input, pos);
+                    printf("Input: %s\n", input);
+                    break;
+                    case COMMAND_BACKSPACE:
+                    pos = (pos - 1 > 0) ? pos - 1 : 0;
+                    input[pos] = '\0';
+                    printf("Input: %s\n", input);
+                    break;
+                    default:
+                    break;
                 }
+
             }
         }
-        refresh();
-        if (key_press && (SDL_GetTicks() - key_press_ticks) > 100)
+        if (move && (SDL_GetTicks() - last_move) > 100)
         {
-            k_cursor.selected = -1;
-            key_press = false;
-            refresh();
+            move = false;
+            print_matrix();
+        }
+        else if (select && (SDL_GetTicks() - last_select) > 100)
+        {
+            select = false;
+            k_cursor.key = -1;
         }
     }
 

@@ -28,16 +28,15 @@ typedef enum Mode
 } Mode;
 
 /**
- * The various commands that can be given from user input.
+ * There are various commands that could be read from input, such as moving the
+ * cursor or wishing to add a space. The Command enum contains all such actions.
  */
 typedef enum Command
 {
+	COMMAND_MOVE,
 	COMMAND_SELECT,
+	COMMAND_SPACE,
 	COMMAND_BACKSPACE,
-	COMMAND_UP,
-	COMMAND_DOWN,
-	COMMAND_LEFT,
-	COMMAND_RIGHT,
 	COMMAND_TOTAL
 } Command;
 
@@ -64,8 +63,8 @@ typedef struct Cursor
 
 	/**
 	 * The currently selected key in the matrix, defaults to -1 if no key is
-	 * seected.
+	 * selected.
 	 */
-	int selected;
+	int key;
 } Cursor;
 #endif // KEYDATA_H
