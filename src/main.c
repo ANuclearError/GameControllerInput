@@ -59,8 +59,8 @@ int get_mode(int x, int y)
 
     if (x >= x_start && x < x_end && y >= y_start && y < y_end)
     {
-        if (x == (k_cursor.key % k_cursor.size) &&
-            y == (k_cursor.key / k_cursor.size))
+        if (x == k_cursor.x + (k_cursor.key % k_cursor.size) &&
+            y == k_cursor.y + (k_cursor.key / k_cursor.size))
         {
             return MODE_SELECTED;
         }
@@ -193,6 +193,7 @@ int main(int argc, char* args[])
 
             }
         }
+        refresh();
         if (move && (SDL_GetTicks() - last_move) > 100)
         {
             move = false;
@@ -202,6 +203,7 @@ int main(int argc, char* args[])
         {
             select = false;
             k_cursor.key = -1;
+            refresh();
         }
     }
 
