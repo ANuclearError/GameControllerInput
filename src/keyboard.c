@@ -10,6 +10,7 @@
  *
  ******************************************************************************/
 #include <SDL2/SDL.h>
+#include "keydata.h"
 #include "keyboard.h"
 
 int get_position(SDL_Keycode key)
@@ -45,4 +46,36 @@ int get_position(SDL_Keycode key)
 		break;
 	}
 	return -1;
+}
+
+void update_cursor(SDL_Keycode key, Cursor* k_cursor)
+{
+    if (key >= SDLK_KP_1 && key <= SDLK_KP_9)
+	{
+		k_cursor->selected = get_position(key);
+	}
+	else if (key == SDLK_w)
+	{
+	    k_cursor->y = k_cursor->y - 1;
+	    if (k_cursor->y < 0)
+	    {
+	        k_cursor->y = ROWS - k_cursor->size;
+	    }
+	}
+	else if (key == SDLK_s)
+	{
+	    k_cursor->y = (k_cursor->y + 1) % (ROWS - k_cursor->size + 1);
+	}
+	else if (key == SDLK_a)
+	{
+	    k_cursor->x = k_cursor->x - 1;
+	    if (k_cursor->x < 0)
+	    {
+	        k_cursor->x = COLS - k_cursor->size;
+	    }
+	}
+	else if (key == SDLK_d)
+	{
+	    k_cursor->x = (k_cursor->x + 1) % (COLS - k_cursor->size + 1);
+	}
 }

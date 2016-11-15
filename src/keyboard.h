@@ -14,4 +14,6 @@
 
 int get_position(SDL_Keycode key);
 
+void update_cursor(SDL_Keycode key, Cursor* k_cursor);
+
 #endif // KEYBOARD_H

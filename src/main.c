@@ -17,6 +17,18 @@
 #include "view.h"
 
 /**
+ * A lower-case keyboard. For the purposes of prototyping, upper case and
+ * symbols have been ignored, since they are not being controlled in a novel
+ * way.
+ */
+const char KEYBOARD[ROWS][COLS] = {
+    {'1', '2', '3', '4', '5', '6', '7', '8', '9', '0'},
+    {'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'},
+    {'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', '\''},
+    {'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '?'}
+};
+
+/**
  * The keyboard's cursor
  */
 Cursor k_cursor = {0, 0, 3, -1};
@@ -47,8 +59,8 @@ int get_mode(int x, int y)
 
     if (x >= x_start && x < x_end && y >= y_start && y < y_end)
     {
-        if (x == (k_cursor.selected / k_cursor.size) &&
-            y == (k_cursor.selected % k_cursor.size))
+        if (x == (k_cursor.selected % k_cursor.size) &&
+            y == (k_cursor.selected / k_cursor.size))
         {
             return MODE_SELECTED;
         }
@@ -129,50 +141,14 @@ int main(int argc, char* args[])
             }
             else if (e.type == SDL_KEYDOWN)
             {
-                SDL_Keycode key = e.key.keysym.sym;
-                if (key >= SDLK_KP_1 && key <= SDLK_KP_9 && !key_press)
+                update_cursor(e.key.keysym.sym, &k_cursor); 
+                if (k_cursor.selected > -1)
                 {
                     key_press = true;
-                    key_press_ticks = SDL_GetTicks();
-                    k_cursor.selected = get_position(e.key.keysym.sym);
                     input[pos] = get_selected_key();
                     pos++;
                     printf("Input: %s\tPos: %d\n", input, pos);
                 }
-                else if (key == SDLK_BACKSPACE)
-                {
-                    input[pos - 1] = '\0';
-                    if (pos > 0)
-                    {
-                        pos--;
-                    }
-                    printf("Input: %s\tPos: %d\n", input, pos);
-                }
-                else if (key == SDLK_w)
-                {
-                    k_cursor.y = k_cursor.y - 1;
-                    if (k_cursor.y < 0)
-                    {
-                        k_cursor.y = ROWS - k_cursor.size;
-                    }
-                }
-                else if (key == SDLK_s)
-                {
-                    k_cursor.y = (k_cursor.y + 1) % (ROWS - k_cursor.size + 1);
-                }
-                else if (key == SDLK_a)
-                {
-                    k_cursor.x = k_cursor.x - 1;
-                    if (k_cursor.x < 0)
-                    {
-                        k_cursor.x = COLS - k_cursor.size;
-                    }
-                }
-                else if (key == SDLK_d)
-                {
-                    k_cursor.x = (k_cursor.x + 1) % (COLS - k_cursor.size + 1);
-                }
-
             }
         }
         refresh();
