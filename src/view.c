@@ -135,8 +135,8 @@ void render_key(int x, int y, char key, int mode)
 	}
     SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
     SDL_Rect key_rect = {
-        GAP + ((KEY_SIZE.w + GAP) * y),
-        GAP + ((KEY_SIZE.h + GAP) * x) + TEXT_BOX_HEIGHT,
+        GAP + ((KEY_SIZE.w + GAP) * x),
+        GAP + ((KEY_SIZE.h + GAP) * y) + TEXT_BOX_HEIGHT,
         KEY_SIZE.w,
         KEY_SIZE.h
     };

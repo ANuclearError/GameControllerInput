@@ -79,11 +79,11 @@ void refresh()
     render_input(input);
     for (int i = 0; i < ROWS; ++i)
     {
-        for (int j = 0; j < COLUMNS; ++j)
+        for (int j = 0; j < COLS; ++j)
         {
             char key = KEYBOARD[i][j];
-            int mode = get_mode(i, j);
-            render_key(i, j, key, mode);
+            int mode = get_mode(j, i);
+            render_key(j, i, key, mode);
         }
     }
     repaint();
@@ -148,6 +148,31 @@ int main(int argc, char* args[])
                     }
                     printf("Input: %s\tPos: %d\n", input, pos);
                 }
+                else if (key == SDLK_w)
+                {
+                    k_cursor.y = k_cursor.y - 1;
+                    if (k_cursor.y < 0)
+                    {
+                        k_cursor.y = ROWS - k_cursor.size;
+                    }
+                }
+                else if (key == SDLK_s)
+                {
+                    k_cursor.y = (k_cursor.y + 1) % (ROWS - k_cursor.size + 1);
+                }
+                else if (key == SDLK_a)
+                {
+                    k_cursor.x = k_cursor.x - 1;
+                    if (k_cursor.x < 0)
+                    {
+                        k_cursor.x = COLS - k_cursor.size;
+                    }
+                }
+                else if (key == SDLK_d)
+                {
+                    k_cursor.x = (k_cursor.x + 1) % (COLS - k_cursor.size + 1);
+                }
+
             }
         }
         refresh();

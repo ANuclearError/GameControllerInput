@@ -12,7 +12,7 @@
 #define KEYDATA_H
 
 #define ROWS 4
-#define COLUMNS 10
+#define COLS 10
 
 /**
  * Keys have certain modes that can they be in, they can be keys that are being
@@ -60,7 +60,7 @@ typedef struct Cursor
  * symbols have been ignored, since they are not being controlled in a novel
  * way.
  */
-const char KEYBOARD[ROWS][COLUMNS] = {
+const char KEYBOARD[ROWS][COLS] = {
     {'1', '2', '3', '4', '5', '6', '7', '8', '9', '0'},
     {'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'},
     {'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', '\''},
