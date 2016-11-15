@@ -72,5 +72,4 @@ const SDL_Color ENTER_COL = {76, 175, 80, SDL_ALPHA_OPAQUE};
 */
 const SDL_Color CHAR_COL = {255, 255, 255, SDL_ALPHA_OPAQUE};
 
-
 #endif // VIEWDATA_H

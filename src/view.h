@@ -25,6 +25,11 @@ void clear_render();
 
 /**
  * Renders a key with the given position and cursor state.
+ *
+ * @param x the x position on matrix
+ * @param y the y position on matrix
+ * @param key the character to be rendered
+ * @param mode the mode this key is in (see Mode in Keyboard.h)
  */
 void render_key(int x, int y, char key, int mode);
 

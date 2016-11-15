@@ -15,8 +15,6 @@
 #include "keyboard.h"
 #include "view.h"
 
-int k_index = 0;
-
 Cursor k_cursor = {0, 0, 3, -1};
 
 int get_mode(int x, int y)
@@ -46,7 +44,7 @@ void refresh()
     {
         for (int j = 0; j < COLUMNS; ++j)
         {
-            char key = KEYBOARDS[k_index].k_keys[i][j];
+            char key = KEYBOARD[i][j];
             int mode = get_mode(i, j);
             render_key(i, j, key, mode);
         }
