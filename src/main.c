@@ -12,6 +12,7 @@
 #include <SDL2/SDL.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include "keydata.h"
 #include "keyboard.h"
 #include "view.h"
 
@@ -73,6 +74,14 @@ int main(int argc, char* args[])
 
     refresh();
     bool run = true;
+
+    bool key_press = false;
+    Uint32 key_press_ticks = SDL_GetTicks();
+
+    int move_x = 0;
+    int move_y = 0;
+    Uint32 move_ticks = SDL_GetTicks();
+
     SDL_Event e;
     while (run)
     {
@@ -82,9 +91,25 @@ int main(int argc, char* args[])
             {
                 run = false;
             }
+            else if (e.type == SDL_KEYDOWN)
+            {
+                SDL_Keycode key = e.key.keysym.sym;
+                if (key >= SDLK_KP_1 && key <= SDLK_KP_9 && !key_press)
+                {
+                    key_press = true;
+                    key_press_ticks = SDL_GetTicks();
+                    k_cursor.selected = get_position(e.key.keysym.sym);
+                }
+            }
         }
         refresh();
-        SDL_Delay(67);
+        if (key_press && (SDL_GetTicks() - key_press_ticks) > 100)
+        {
+            printf("Clearing\n");
+            k_cursor.selected = -1;
+            key_press = false;
+            refresh();
+        }
     }
 
     view_close();

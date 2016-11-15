@@ -3,7 +3,7 @@
 #and may not be redistributed without written permission.
 
 #OBJS specifies which files to compile as part of the project
-OBJS = src/main.c src/view.c
+OBJS = src/main.c src/view.c src/keyboard.c
 
 #CC specifies which compiler we're using
 CC = gcc
