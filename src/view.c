@@ -66,7 +66,7 @@ bool view_init()
         return false;
     }
 
-    font = TTF_OpenFont("arial.ttf", 72);
+    font = TTF_OpenFont("arial.ttf", 36);
     if (font == NULL)
     {
         printf("TTF_Error opening font: %s\n", TTF_GetError());
@@ -108,6 +108,11 @@ void render_input(char input[])
     input_rect.x = 50;
     input_rect.y = (TEXT_BOX_HEIGHT / 2) - (input_rect.h / 2);
 	SDL_RenderCopy(renderer, texture, NULL, &input_rect);
+	// Now need to ensure we aren't eating 2 gigs of RAM.
+    SDL_FreeSurface(surface);
+    SDL_DestroyTexture(texture);
+    surface = NULL;
+	texture = NULL;
 }
 
 /**

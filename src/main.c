@@ -167,8 +167,11 @@ int main(int argc, char* args[])
                     {
                         select = true;
                         last_select = SDL_GetTicks();
-                        input[pos] = get_selected_key();
-                        pos++;
+                        if (pos < 127)
+                        {
+                            input[pos] = get_selected_key();
+                            pos++;                            
+                        }
                         printf("Input: %s\n", input);
                     }
                     else if (!move)
