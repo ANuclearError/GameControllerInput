@@ -164,9 +164,18 @@ int main(int argc, char* args[])
                     {
                         select = true;
                         last_select = SDL_GetTicks();
+                        if (pos == 0)
+                        {
+                            start_time = last_select;
+                        }
                         if (pos < 127)
                         {
                             input[pos] = get_selected_key();
+                            if (input[pos] != prompt[pos])
+                            {
+                                errors++;
+                                printf("Error %d\n", errors);
+                            }
                             pos++;                            
                         }
                     }
@@ -185,6 +194,17 @@ int main(int argc, char* args[])
                     pos = (pos - 1 > 0) ? pos - 1 : 0;
                     input[pos] = '\0';
                     refresh();
+                    break;
+                    case COMMAND_ENTER:
+                    if (strcmp(input, prompt) == 0) {
+                        Uint32 time = SDL_GetTicks() - start_time;
+                        printf("Time taken %d Errors %d\n", time, errors);
+                        run = false;
+                        SDL_Delay(5000);
+                    }
+                    else {
+                        printf("You ain't down, keep going\n");
+                    }
                     break;
                     default:
                     break;

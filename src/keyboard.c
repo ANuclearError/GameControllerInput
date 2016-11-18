@@ -34,6 +34,11 @@ Command get_command(SDL_Keycode key)
 	{
 		return COMMAND_BACKSPACE;
 	}
+
+	if (key == SDLK_RETURN)
+	{
+		return COMMAND_ENTER;
+	}
 	return COMMAND_TOTAL;
 }
 
