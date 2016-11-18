@@ -36,12 +36,27 @@ Cursor k_cursor = {0, 0, 3, -1};
 /**
  * The user input array
  */
-char input[128];
+char input[64];
+
+/**
+ * The prompt the user should type in to measure efficiency
+ */
+char prompt[64] = "the quick brown fox jumped over the lazy dog.";
 
 /**
  * The position where text is being entered.
  */
 int pos = 0;
+
+/**
+ * The number of errors the user has made.
+ */
+int errors = 0;
+
+/**
+ * The time the user started typing.
+ */
+Uint32 start_time;
 
 /**
  * Returns the mode that the given position in keyboard matrix corresponds to.
@@ -88,7 +103,7 @@ char get_selected_key()
 void refresh()
 {
     clear_render();
-    render_input(input);
+    render_input(input, prompt);
     for (int i = 0; i < ROWS; ++i)
     {
         for (int j = 0; j < COLS; ++j)
@@ -101,23 +116,6 @@ void refresh()
         }
     }
     repaint();
-}
-
-/**
- * Prints the current matrix that is being hovered over by the cursor.
- */
-void print_matrix()
-{
-    for (int i = 0; i < k_cursor.size; ++i)
-    {
-        printf("\t");
-        for (int j = 0; j < k_cursor.size; ++j)
-        {
-            printf("%c ", KEYBOARD[k_cursor.y + i][k_cursor.x + j]);
-        }
-        printf("\n");
-    }
-    printf("\n");
 }
 
 /**
@@ -139,12 +137,11 @@ int main(int argc, char* args[])
         return -1;
     }
 
-    bool move = false;
+    bool move = true;
     bool select = false;
     Uint32 last_move = SDL_GetTicks();
     Uint32 last_select = SDL_GetTicks();
 
-    print_matrix();
     bool run = true;
     SDL_Event e;
     while (run)
@@ -172,7 +169,6 @@ int main(int argc, char* args[])
                             input[pos] = get_selected_key();
                             pos++;                            
                         }
-                        printf("Input: %s\n", input);
                     }
                     else if (!move)
                     {
@@ -183,12 +179,12 @@ int main(int argc, char* args[])
                     case COMMAND_SPACE:
                     input[pos] = ' ';
                     pos++;
-                    printf("Input: %s\n", input);
+                    refresh();
                     break;
                     case COMMAND_BACKSPACE:
                     pos = (pos - 1 > 0) ? pos - 1 : 0;
                     input[pos] = '\0';
-                    printf("Input: %s\n", input);
+                    refresh();
                     break;
                     default:
                     break;
@@ -196,13 +192,12 @@ int main(int argc, char* args[])
 
             }
         }
-        refresh();
-        if (move && (SDL_GetTicks() - last_move) > 100)
+        if (move && (SDL_GetTicks() - last_move) > 67)
         {
             move = false;
-            print_matrix();
+            refresh();
         }
-        else if (select && (SDL_GetTicks() - last_select) > 100)
+        else if (select && (SDL_GetTicks() - last_select) > 67)
         {
             select = false;
             k_cursor.key = -1;

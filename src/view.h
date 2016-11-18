@@ -24,11 +24,22 @@ bool view_init();
 void clear_render();
 
 /**
- * Renders the input text.
+ * Renders the input text and prompt.
  *
- * @param The input to be displayed
+ * @param input the input to be displayed
+ * @param prompt the prompt that is to be displayed
  */
-void render_input(char input[]);
+void render_input(char input[], char prompt[]);
+
+void render_line(int pos, int length);
+
+/**
+ * The renders the given text, giving it the colour provided.
+ *
+ * @param text the text to render
+ * @param colour the colour of the text
+ */
+void render_text(char text[], SDL_Color colour);
 
 /**
  * Renders a key with the given position and cursor state.

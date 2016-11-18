@@ -49,7 +49,7 @@ SDL_Rect char_rect;
 /**
  * The area where the input text is added.
  */
-SDL_Rect input_rect;
+SDL_Rect text_rect;
 
 /**
  * Attempts to create the window.
@@ -66,7 +66,7 @@ bool view_init()
         return false;
     }
 
-    font = TTF_OpenFont("arial.ttf", 36);
+    font = TTF_OpenFont("consola.ttf", 48);
     if (font == NULL)
     {
         printf("TTF_Error opening font: %s\n", TTF_GetError());
@@ -96,23 +96,64 @@ bool view_init()
 }
 
 /**
- * Renders the input text.
+ * Renders the input text and prompt.
  *
- * @param The input to be displayed
+ * @param input the input to be displayed
+ * @param prompt the prompt that is to be displayed
  */
-void render_input(char input[])
+void render_input(char input[], char prompt[])
 {
-    surface = TTF_RenderText_Blended(font, input, CHAR_COL);
+	render_text(prompt, PROMPT_COL);
+	render_text(input, CHAR_COL);
+
+	int i_len = strlen(input);
+	int p_len = strlen(prompt);
+	// int len = (i_len > p_len) ? p_len : i_len;
+
+	for (int i = 0; i < i_len; i++)
+	{
+		if (i > p_len)
+			render_line(i, i_len);
+		else if (input[i] != prompt[i])
+			render_line(i, i_len);
+	}
+}
+
+/**
+ * Renders a line underneath characters that are not correct.
+ *
+ * @param pos the position of the incorrect character in string
+ * @param length the length of the string the user has input
+ */
+void render_line(int pos, int length)
+{
+	int width = text_rect.w / length;
+	int x = text_rect.x + (width * pos);
+	int y = text_rect.y + text_rect.h;
+	SDL_SetRenderDrawColor(renderer, ERR_COL.r, ERR_COL.g, ERR_COL.b, ERR_COL.a);
+	SDL_RenderDrawLine(renderer, x, y, x + width, y);
+}
+
+/**
+ * The renders the given text, giving it the colour provided.
+ *
+ * @param text the text to render
+ * @param colour the colour of the text
+ */
+void render_text(char text[], SDL_Color colour)
+{
+    surface = TTF_RenderText_Blended(font, text, colour);
     texture = SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_QueryTexture(texture, NULL, NULL, &input_rect.w, &input_rect.h);
-    input_rect.x = 50;
-    input_rect.y = (TEXT_BOX_HEIGHT / 2) - (input_rect.h / 2);
-	SDL_RenderCopy(renderer, texture, NULL, &input_rect);
+    SDL_QueryTexture(texture, NULL, NULL, &text_rect.w, &text_rect.h);
+    text_rect.x = 50;
+    text_rect.y = (TEXT_BOX_HEIGHT / 2) - (text_rect.h / 2);
+	SDL_RenderCopy(renderer, texture, NULL, &text_rect);
+
 	// Now need to ensure we aren't eating 2 gigs of RAM.
     SDL_FreeSurface(surface);
     SDL_DestroyTexture(texture);
     surface = NULL;
-	texture = NULL;
+	texture = NULL;	
 }
 
 /**

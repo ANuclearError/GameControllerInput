@@ -68,8 +68,18 @@ const SDL_Color HOVER_COL = {200, 230, 201, SDL_ALPHA_OPAQUE};
 const SDL_Color ENTER_COL = {76, 175, 80, SDL_ALPHA_OPAQUE};
 
 /**
-* The colour of the characters being rendered.
-*/
+ * The colour of the characters being rendered.
+ */
 const SDL_Color CHAR_COL = {255, 255, 255, SDL_ALPHA_OPAQUE};
+
+/**
+ * The colour of the prompt text being displayed.
+ */
+const SDL_Color PROMPT_COL = {50, 50, 50, SDL_ALPHA_OPAQUE};
+
+/**
+ * The colour of characters that do not match the prompt.
+ */
+const SDL_Color ERR_COL = {255, 0, 0, SDL_ALPHA_OPAQUE};
 
 #endif // VIEWDATA_H
