@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include "keydata.h"
+#include "controller.h"
 #include "keyboard.h"
 #include "view.h"
 
@@ -131,9 +132,9 @@ int main(int argc, char* args[])
         printf("SDL_Error initialisation: %s\n", SDL_GetError());
         return -1;
     }
-    if (!view_init())
+    if (!(view_init() && controller_init()))
     {
-        printf("Failed to initialise view\n");
+        printf("Failed to initialise.\n");
         return -1;
     }
 
@@ -225,6 +226,7 @@ int main(int argc, char* args[])
         }
     }
 
+    controller_close();
     view_close();
     return 0;
 }

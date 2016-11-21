@@ -31,6 +31,13 @@ void clear_render();
  */
 void render_input(char input[], char prompt[]);
 
+
+/**
+ * Renders a line underneath characters that are not correct.
+ *
+ * @param pos the position of the incorrect character in string
+ * @param length the length of the string the user has input
+ */
 void render_line(int pos, int length);
 
 /**
