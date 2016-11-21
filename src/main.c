@@ -212,12 +212,12 @@ int main(int argc, char* args[])
 
             }
         }
+        refresh();
         if (move && (SDL_GetTicks() - last_move) > 67)
         {
             move = false;
-            refresh();
         }
-        else if (select && (SDL_GetTicks() - last_select) > 67)
+        else if (select && (SDL_GetTicks() - last_select) > 100)
         {
             select = false;
             k_cursor.key = -1;
