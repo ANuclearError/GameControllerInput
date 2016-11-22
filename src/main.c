@@ -104,7 +104,7 @@ char get_selected_key()
 void refresh()
 {
     clear_render();
-    render_input(input, prompt);
+    render_input(input, prompt, pos);
     for (int i = 0; i < ROWS; ++i)
     {
         for (int j = 0; j < COLS; ++j)
