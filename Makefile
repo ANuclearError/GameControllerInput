@@ -21,7 +21,7 @@ COMPILER_FLAGS = -Wall -pedantic
 LINKER_FLAGS = -lmingw32 -lSDL2main -lSDL2 -lSDL2_ttf
 
 #OBJ_NAME specifies the name of our executable
-OBJ_NAME = keyboard
+OBJ_NAME = keyboard-c1
 
 #This is the target that compiles our executable
 all : $(OBJS)

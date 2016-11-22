@@ -33,13 +33,6 @@ Command get_command(SDL_GameControllerButton e);
 void move(Cursor* k_cursor);
 
 /**
- * Updates the given cursor with information taken from controller.
- *
- * @param k_cursor the cursor controlling keyboard.
- */
-void select(Cursor* k_cursor);
-
-/**
  * Graceful close of the controller.
  */
 void controller_close();
