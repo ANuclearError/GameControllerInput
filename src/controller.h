@@ -17,6 +17,8 @@
  */
 bool controller_init();
 
+void move(Cursor* k_cursor);
+
 /**
  * Graceful close of the controller.
  */

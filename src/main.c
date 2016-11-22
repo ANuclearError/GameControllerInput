@@ -138,8 +138,11 @@ int main(int argc, char* args[])
         return -1;
     }
 
+    Uint32 last_move = SDL_GetTicks();
+
     bool run = true;
     SDL_Event e;
+    refresh();
     while (run)
     {
         while (SDL_PollEvent(&e) != 0)
@@ -148,6 +151,12 @@ int main(int argc, char* args[])
             {
                 run = false;
             }
+        }
+
+        if (SDL_GetTicks() - last_move > 100)
+        {
+            move(&k_cursor);
+            last_move = SDL_GetTicks();
         }
         refresh();
     }

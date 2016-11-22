@@ -54,6 +54,36 @@ bool controller_init() {
     return true;
 }
 
+void move(Cursor* k_cursor)
+{
+    int x = SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_LEFTX);
+    int y = SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_LEFTY);
+    if (x > DEAD_ZONE)
+    {
+        k_cursor->x = (k_cursor->x + 1) % (COLS - k_cursor->size + 1);
+    }
+    else if (x < -DEAD_ZONE)
+    {
+        k_cursor->x = k_cursor->x - 1;
+        if (k_cursor->x < 0)
+        {
+            k_cursor->x = COLS - k_cursor->size;
+        }
+    }
+    else if (y > DEAD_ZONE)
+    {
+        k_cursor->y = (k_cursor->y + 1) % (ROWS - k_cursor->size + 1);
+    }
+    else if (y < -DEAD_ZONE)
+    {
+        k_cursor->y = k_cursor->y - 1;
+        if (k_cursor->y < 0)
+        {
+            k_cursor->y = ROWS - k_cursor->size;
+        }
+    }
+}
+
 /**
  * Graceful close of the controller.
  */
