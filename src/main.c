@@ -142,7 +142,7 @@ int main(int argc, char* args[])
     Uint32 last_select = SDL_GetTicks();
     Uint32 last_action = SDL_GetTicks();
     bool action = false;
-
+    bool selected = false;
     bool run = true;
     SDL_Event e;
     refresh();
@@ -191,16 +191,19 @@ int main(int argc, char* args[])
             }
         }
 
+        refresh();
         if (SDL_GetTicks() - last_move > 100)
         {
             move(&k_cursor);
             last_move = SDL_GetTicks();
         }
-        if (SDL_GetTicks() - last_select > 150)
+        if (!selected)
         {
             select(&k_cursor);
             if (k_cursor.key > - 1)
             {
+                selected = true;
+                last_select = SDL_GetTicks();
                 if (pos == 0)
                 {
                     start_time = SDL_GetTicks();
@@ -216,15 +219,18 @@ int main(int argc, char* args[])
                     pos++;
                 }
             }
-            last_select = SDL_GetTicks();
+        }
+        else if (selected && SDL_GetTicks() - last_select > 150)
+        {
+            selected = false;
+            k_cursor.key = -1;
+            refresh();
         }
         if (SDL_GetTicks() - last_action > 100 && action)
         {
             last_action = SDL_GetTicks();
             action = false;
         }
-        k_cursor.key = -1;
-        refresh();
     }
 
     controller_close();

@@ -19,7 +19,7 @@
 /**
  * The deadzone of the controller, input is ignored inside this limit.
  */
-const int DEAD_ZONE = 32767 / 3;
+const int DEAD_ZONE = 8000;
 
 /**
  * The controller to read data from.
