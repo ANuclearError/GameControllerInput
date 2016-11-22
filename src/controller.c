@@ -133,35 +133,67 @@ void select(Cursor* k_cursor)
     {
         if (x < -DEAD_ZONE)
         {
-            x = 0;
+            x = -1;
         }
         else if (x > DEAD_ZONE)
         {
-            x = 2;
+            x = 1;
         }
         else
         {
-            x = 1;
+            x = 0;
         }
 
         if (y < -DEAD_ZONE)
         {
-            y = 0;
+            y = -1;
         }
         else if (y > DEAD_ZONE)
         {
-            y = 2;
+            y = 1;
         }
         else
         {
-            y = 1;
+            y = 0;
         }
 
 
-         if (x != 1 || y != 1)
-         {
-            k_cursor->key = k_cursor->size * y + x;
-         }
+        if (x != 0 || y != 0)
+        {
+            double angle = atan2((double)y, (double)x) * (180.0 / M_PI);
+            if (angle == -135)
+            {
+                k_cursor->key = 0;
+            }
+            else if (angle == -90)
+            {
+                k_cursor->key = 1;
+            }
+            else if (angle == -45)
+            {
+                k_cursor->key = 2;
+            }
+            else if (angle == 0)
+            {
+                k_cursor->key = 5;
+            }
+            else if (angle == 45)
+            {
+                k_cursor->key = 8;
+            }
+            else if (angle == 90)
+            {
+                k_cursor->key = 7;
+            }
+            else if (angle == 135)
+            {
+                k_cursor->key = 6;
+            }
+            else if (angle == 180)
+            {
+                k_cursor->key = 3;
+            }
+        }
     }
 }
 
