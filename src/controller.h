@@ -23,7 +23,7 @@ bool controller_init();
  * @param key the key that was pressed
  * @return command
  */
-//Command get_command(SDL_Keycode key);
+Command get_command(SDL_Event e);
 
 /**
  * Updating the cursor to reflect the user input.
@@ -31,7 +31,7 @@ bool controller_init();
  * @param key the key that was pressed
  * @param k_cursor the cursor struct containing information
  */
-//void update_cursor(SDL_Keycode key, Cursor* k_cursor);
+void update_cursor(Cursor* k_cursor);
 
 /**
  * Graceful close of the controller.
