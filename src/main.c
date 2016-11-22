@@ -14,6 +14,7 @@
 #include <stdbool.h>
 #include "keydata.h"
 #include "controller.h"
+#include "keyboard.h"
 #include "view.h"
 
 /**
@@ -137,90 +138,94 @@ int main(int argc, char* args[])
         return -1;
     }
 
-    bool run = true;
-    bool action = false;
-    Uint32 start_time;
-    Uint32 last_action = SDL_GetTicks();
+    bool move = true;
+    bool select = false;
+    Uint32 last_move = SDL_GetTicks();
+    Uint32 last_select = SDL_GetTicks();
 
+    bool run = true;
     SDL_Event e;
-    refresh();
     while (run)
     {
         while (SDL_PollEvent(&e) != 0)
         {
-            Command com;
             if (e.type == SDL_QUIT)
             {
                 run = false;
             }
-            else
+            else if (e.type == SDL_KEYDOWN)
             {
-                com = get_command(e);
-                if (com < COMMAND_TOTAL && !action)
+                Command com = get_command(e.key.keysym.sym);
+                switch (com)
                 {
-                    action = true;
-                    last_action = SDL_GetTicks();
-                    switch (com)
+                    case COMMAND_MOVE:
+                    case COMMAND_SELECT:
+                    update_cursor(e.key.keysym.sym, &k_cursor);
+                    if (k_cursor.key > -1 && !select)
                     {
-                        case COMMAND_MOVE:
-                        case COMMAND_SELECT:
-                        update_cursor(&k_cursor);
-                        if (k_cursor.key > -1)
+                        select = true;
+                        last_select = SDL_GetTicks();
+                        if (pos == 0)
                         {
-                            if (pos == 0)
-                            {
-                                start_time = last_action;
-                            }
-                            if (pos < 127)
-                            {
-                                input[pos] = get_selected_key();
-                                if (input[pos] != prompt[pos])
-                                {
-                                    errors++;
-                                    printf("Error %d\n", errors);
-                                }
-                                pos++;                            
-                            }
+                            start_time = last_select;
                         }
-                        break;
-                        case COMMAND_SPACE:
-                        input[pos] = ' ';
-                        if (input[pos] != prompt[pos])
+                        if (pos < 127)
                         {
-                            errors++;
-                            printf("Error %d\n", errors);
+                            input[pos] = get_selected_key();
+                            if (input[pos] != prompt[pos])
+                            {
+                                errors++;
+                                printf("Error %d\n", errors);
+                            }
+                            pos++;                            
                         }
-                        pos++;
-                        refresh();
-                        break;
-                        case COMMAND_BACKSPACE:
-                        pos = (pos - 1 > 0) ? pos - 1 : 0;
-                        input[pos] = '\0';
-                        refresh();
-                        break;
-                        case COMMAND_ENTER:
-                        if (strcmp(input, prompt) == 0) {
-                            Uint32 time = SDL_GetTicks() - start_time;
-                            printf("Time taken %d Errors %d\n", time, errors);
-                            run = false;
-                            SDL_Delay(5000);
-                        }
-                        else {
-                            printf("You ain't down, keep going\n");
-                        }
-                        break;
-                        default:
-                        break;              
                     }
+                    else if (!move)
+                    {
+                        move = true;
+                        last_move = SDL_GetTicks();
+                    }
+                    break;
+                    case COMMAND_SPACE:
+                    input[pos] = ' ';
+                    pos++;
+                    refresh();
+                    break;
+                    case COMMAND_BACKSPACE:
+                    pos = (pos - 1 > 0) ? pos - 1 : 0;
+                    input[pos] = '\0';
+                    refresh();
+                    break;
+                    case COMMAND_ENTER:
+                    if (strcmp(input, prompt) == 0) {
+                        Uint32 time = SDL_GetTicks() - start_time;
+                        printf("Time taken %d Errors %d\n", time, errors);
+                        run = false;
+                        SDL_Delay(5000);
+                    }
+                    else {
+                        printf("You ain't down, keep going\n");
+                    }
+                    break;
+                    default:
+                    break;
                 }
+
             }
         }
-        if (action && (SDL_GetTicks() - last_action) > 100)
+        refresh();
+        if (move && (SDL_GetTicks() - last_move) > 67)
         {
-            action = false;
+            move = false;
+        }
+        else if (select && (SDL_GetTicks() - last_select) > 100)
+        {
+            select = false;
+            k_cursor.key = -1;
             refresh();
         }
     }
+
     controller_close();
     view_close();
     return 0;
