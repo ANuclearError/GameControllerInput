@@ -12,13 +12,14 @@
 #include <SDL2/SDL.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include <math.h>
 #include "keydata.h"
 #include "controller.h"
 
 /**
  * The deadzone of the controller, input is ignored inside this limit.
  */
-const int DEAD_ZONE = 16000;
+const int DEAD_ZONE = 32767 / 3;
 
 /**
  * The controller to read data from.
@@ -130,35 +131,37 @@ void select(Cursor* k_cursor)
     }
     else
     {
-        if (x > DEAD_ZONE)
-        {
-            x = 2;
-        }
-        else if (x < -DEAD_ZONE)
+        if (x < -DEAD_ZONE)
         {
             x = 0;
+        }
+        else if (x > DEAD_ZONE)
+        {
+            x = 2;
         }
         else
         {
             x = 1;
         }
-        if (y > DEAD_ZONE)
-        {
-            y = 2;
-        }
-        else if (y < -DEAD_ZONE)
+
+        if (y < -DEAD_ZONE)
         {
             y = 0;
+        }
+        else if (y > DEAD_ZONE)
+        {
+            y = 2;
         }
         else
         {
             y = 1;
         }
 
-        if (x != 1 || y != 1)
-        {
+
+         if (x != 1 || y != 1)
+         {
             k_cursor->key = k_cursor->size * y + x;
-        }
+         }
     }
 }
 
