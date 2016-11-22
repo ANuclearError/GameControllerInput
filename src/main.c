@@ -139,6 +139,9 @@ int main(int argc, char* args[])
     }
 
     Uint32 last_move = SDL_GetTicks();
+    Uint32 last_select = SDL_GetTicks();
+    Uint32 last_action = SDL_GetTicks();
+    bool action = false;
 
     bool run = true;
     SDL_Event e;
@@ -151,6 +154,41 @@ int main(int argc, char* args[])
             {
                 run = false;
             }
+            else if (e.type == SDL_CONTROLLERBUTTONDOWN && !action)
+            {
+                action = true;
+                Command com = get_command(e.cbutton.button);
+                switch (com)
+                {
+                    case COMMAND_SPACE:
+                    input[pos] = ' ';
+                    if (input[pos] != prompt[pos])
+                    {
+                        errors++;
+                        printf("Error %d\n", errors);
+                    }
+                    pos++;
+                    break;
+                    case COMMAND_BACKSPACE:
+                    pos = (pos - 1 > 0) ? pos - 1 : 0;
+                    input[pos] = '\0';
+                    refresh();
+                    break;
+                    case COMMAND_ENTER:
+                    if (strcmp(input, prompt) == 0) {
+                        Uint32 time = SDL_GetTicks() - start_time;
+                        printf("Time taken %d Errors %d\n", time, errors);
+                        run = false;
+                        SDL_Delay(5000);
+                    }
+                    else {
+                        printf("You ain't down, keep going\n");
+                    }
+                    break;
+                    default:
+                    break;
+                }
+            }
         }
 
         if (SDL_GetTicks() - last_move > 100)
@@ -158,6 +196,34 @@ int main(int argc, char* args[])
             move(&k_cursor);
             last_move = SDL_GetTicks();
         }
+        if (SDL_GetTicks() - last_select > 150)
+        {
+            select(&k_cursor);
+            if (k_cursor.key > - 1)
+            {
+                if (pos == 0)
+                {
+                    start_time = SDL_GetTicks();
+                }
+                if (pos < 127)
+                {
+                    input[pos] = get_selected_key();
+                    if (input[pos] != prompt[pos])
+                    {
+                        errors++;
+                        printf("Error %d\n", errors);
+                    }
+                    pos++;
+                }
+            }
+            last_select = SDL_GetTicks();
+        }
+        if (SDL_GetTicks() - last_action > 100 && action)
+        {
+            last_action = SDL_GetTicks();
+            action = false;
+        }
+        k_cursor.key = -1;
         refresh();
     }
 

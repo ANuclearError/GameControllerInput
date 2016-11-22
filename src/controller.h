@@ -17,7 +17,27 @@
  */
 bool controller_init();
 
+/**
+ * Returns the command determined by the controller button pressed.
+ *
+ * @param e the button that was pressed.
+ * @return command
+ */
+Command get_command(SDL_GameControllerButton e);
+
+/**
+ * Updates the given cursor with information taken from controller.
+ *
+ * @param k_cursor the cursor controlling keyboard.
+ */
 void move(Cursor* k_cursor);
+
+/**
+ * Updates the given cursor with information taken from controller.
+ *
+ * @param k_cursor the cursor controlling keyboard.
+ */
+void select(Cursor* k_cursor);
 
 /**
  * Graceful close of the controller.

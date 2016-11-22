@@ -18,7 +18,7 @@
 /**
  * The deadzone of the controller, input is ignored inside this limit.
  */
-const int DEAD_ZONE = 8000;
+const int DEAD_ZONE = 16000;
 
 /**
  * The controller to read data from.
@@ -54,6 +54,36 @@ bool controller_init() {
     return true;
 }
 
+/**
+ * Returns the command determined by the controller button pressed.
+ *
+ * @param e the button that was pressed.
+ * @return command
+ */
+Command get_command(SDL_GameControllerButton e)
+{
+    if (e == SDL_CONTROLLER_BUTTON_LEFTSHOULDER)
+    {
+        return COMMAND_BACKSPACE;
+    }
+
+    if (e == SDL_CONTROLLER_BUTTON_RIGHTSHOULDER)
+    {
+        return COMMAND_SPACE;
+    }
+
+    if (e == SDL_CONTROLLER_BUTTON_START)
+    {
+        return COMMAND_ENTER;
+    }
+    return COMMAND_TOTAL;
+}
+
+/**
+ * Updates the given cursor with information taken from controller.
+ *
+ * @param k_cursor the cursor controlling keyboard.
+ */
 void move(Cursor* k_cursor)
 {
     int x = SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_LEFTX);
@@ -80,6 +110,54 @@ void move(Cursor* k_cursor)
         if (k_cursor->y < 0)
         {
             k_cursor->y = ROWS - k_cursor->size;
+        }
+    }
+}
+
+/**
+ * Updates the given cursor with information taken from controller.
+ *
+ * @param k_cursor the cursor controlling keyboard.
+ */
+void select(Cursor* k_cursor)
+{
+    int x = SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_RIGHTX);
+    int y = SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_RIGHTY);
+    if (SDL_GameControllerGetButton(controller,
+                                    SDL_CONTROLLER_BUTTON_RIGHTSTICK))
+    {
+        k_cursor->key = 4;
+    }
+    else
+    {
+        if (x > DEAD_ZONE)
+        {
+            x = 2;
+        }
+        else if (x < -DEAD_ZONE)
+        {
+            x = 0;
+        }
+        else
+        {
+            x = 1;
+        }
+        if (y > DEAD_ZONE)
+        {
+            y = 2;
+        }
+        else if (y < -DEAD_ZONE)
+        {
+            y = 0;
+        }
+        else
+        {
+            y = 1;
+        }
+
+        if (x != 1 || y != 1)
+        {
+            k_cursor->key = k_cursor->size * y + x;
         }
     }
 }
