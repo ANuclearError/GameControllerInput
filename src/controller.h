@@ -18,22 +18,6 @@
 bool controller_init();
 
 /**
- * Converts a key code into a command.
- *
- * @param key the key that was pressed
- * @return command
- */
-//Command get_command(SDL_Keycode key);
-
-/**
- * Updating the cursor to reflect the user input.
- *
- * @param key the key that was pressed
- * @param k_cursor the cursor struct containing information
- */
-//void update_cursor(SDL_Keycode key, Cursor* k_cursor);
-
-/**
  * Graceful close of the controller.
  */
 void controller_close();

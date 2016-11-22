@@ -12,8 +12,8 @@
 #include <SDL2/SDL.h>
 #include <stdio.h>
 #include <stdbool.h>
-#include "controller.h"
 #include "keydata.h"
+#include "controller.h"
 
 /**
  * The deadzone of the controller, input is ignored inside this limit.
@@ -23,25 +23,33 @@ const int DEAD_ZONE = 8000;
 /**
  * The controller to read data from.
  */
-SDL_Joystick* controller = NULL;
+SDL_GameController* controller = NULL;
 
 /**
  * Initialises the controller, ensuring that it is connected.
  */
 bool controller_init() {
-    if (SDL_NumJoysticks() < 1)
+    for (int i = 0; i < SDL_NumJoysticks(); i++)
     {
-        printf("Warning: no joysticks connected!\n");
-        return false;
-    }
-    else
-    {
-        controller = SDL_JoystickOpen(0);
-        if (controller == NULL)
+        if (SDL_IsGameController(i))
         {
-            printf("SDL_Error opening controller %s\n", SDL_GetError());
-            return false;
+            controller = SDL_GameControllerOpen(i);
+            if (controller)
+            {
+                return true;
+            }
+            else
+            {
+                printf("SDL_Error controller: %s\n", SDL_GetError());
+                return false;
+            }
         }
+    }
+
+    if (controller == NULL)
+    {
+        printf("SDL_Error controller: %s\n", SDL_GetError());
+        return false;
     }
     return true;
 }
@@ -51,6 +59,6 @@ bool controller_init() {
  */
 void controller_close()
 {
-    SDL_JoystickClose(controller);
+    SDL_GameControllerClose(controller);
     controller = NULL;
 }

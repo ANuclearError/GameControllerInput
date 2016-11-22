@@ -14,7 +14,7 @@
 #include <stdbool.h>
 #include "keydata.h"
 #include "controller.h"
-#include "keyboard.h"
+//#include "keyboard.h"
 #include "view.h"
 
 /**
@@ -138,11 +138,6 @@ int main(int argc, char* args[])
         return -1;
     }
 
-    bool move = true;
-    bool select = false;
-    Uint32 last_move = SDL_GetTicks();
-    Uint32 last_select = SDL_GetTicks();
-
     bool run = true;
     SDL_Event e;
     while (run)
@@ -153,77 +148,8 @@ int main(int argc, char* args[])
             {
                 run = false;
             }
-            else if (e.type == SDL_KEYDOWN)
-            {
-                Command com = get_command(e.key.keysym.sym);
-                switch (com)
-                {
-                    case COMMAND_MOVE:
-                    case COMMAND_SELECT:
-                    update_cursor(e.key.keysym.sym, &k_cursor);
-                    if (k_cursor.key > -1 && !select)
-                    {
-                        select = true;
-                        last_select = SDL_GetTicks();
-                        if (pos == 0)
-                        {
-                            start_time = last_select;
-                        }
-                        if (pos < 127)
-                        {
-                            input[pos] = get_selected_key();
-                            if (input[pos] != prompt[pos])
-                            {
-                                errors++;
-                                printf("Error %d\n", errors);
-                            }
-                            pos++;                            
-                        }
-                    }
-                    else if (!move)
-                    {
-                        move = true;
-                        last_move = SDL_GetTicks();
-                    }
-                    break;
-                    case COMMAND_SPACE:
-                    input[pos] = ' ';
-                    pos++;
-                    refresh();
-                    break;
-                    case COMMAND_BACKSPACE:
-                    pos = (pos - 1 > 0) ? pos - 1 : 0;
-                    input[pos] = '\0';
-                    refresh();
-                    break;
-                    case COMMAND_ENTER:
-                    if (strcmp(input, prompt) == 0) {
-                        Uint32 time = SDL_GetTicks() - start_time;
-                        printf("Time taken %d Errors %d\n", time, errors);
-                        run = false;
-                        SDL_Delay(5000);
-                    }
-                    else {
-                        printf("You ain't down, keep going\n");
-                    }
-                    break;
-                    default:
-                    break;
-                }
-
-            }
         }
         refresh();
-        if (move && (SDL_GetTicks() - last_move) > 67)
-        {
-            move = false;
-        }
-        else if (select && (SDL_GetTicks() - last_select) > 100)
-        {
-            select = false;
-            k_cursor.key = -1;
-            refresh();
-        }
     }
 
     controller_close();
