@@ -91,11 +91,11 @@ void move(Cursor* k_cursor)
     int y = SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_LEFTY);
     if (x > DEAD_ZONE)
     {
-        k_cursor->x = (k_cursor->x + 1) % (COLS - k_cursor->size + 1);
+        k_cursor->x = (k_cursor->x + 2) % (COLS - k_cursor->size + 2);
     }
     else if (x < -DEAD_ZONE)
     {
-        k_cursor->x = k_cursor->x - 1;
+        k_cursor->x = k_cursor->x - 2;
         if (k_cursor->x < 0)
         {
             k_cursor->x = COLS - k_cursor->size;
@@ -103,11 +103,11 @@ void move(Cursor* k_cursor)
     }
     else if (y > DEAD_ZONE)
     {
-        k_cursor->y = (k_cursor->y + 1) % (ROWS - k_cursor->size + 1);
+        k_cursor->y = (k_cursor->y + 2) % (ROWS - k_cursor->size + 2);
     }
     else if (y < -DEAD_ZONE)
     {
-        k_cursor->y = k_cursor->y - 1;
+        k_cursor->y = k_cursor->y - 2;
         if (k_cursor->y < 0)
         {
             k_cursor->y = ROWS - k_cursor->size;
@@ -157,42 +157,21 @@ void select(Cursor* k_cursor)
             y = 0;
         }
 
-
-        if (x != 0 || y != 0)
+        if (x == -1 && y == -1)
         {
-            double angle = atan2((double)y, (double)x) * (180.0 / M_PI);
-            if (angle == -135)
-            {
-                k_cursor->key = 0;
-            }
-            else if (angle == -90)
-            {
-                k_cursor->key = 1;
-            }
-            else if (angle == -45)
-            {
-                k_cursor->key = 2;
-            }
-            else if (angle == 0)
-            {
-                k_cursor->key = 5;
-            }
-            else if (angle == 45)
-            {
-                k_cursor->key = 8;
-            }
-            else if (angle == 90)
-            {
-                k_cursor->key = 7;
-            }
-            else if (angle == 135)
-            {
-                k_cursor->key = 6;
-            }
-            else if (angle == 180)
-            {
-                k_cursor->key = 3;
-            }
+            k_cursor->key = 0;
+        }
+        else if (x == 1 && y == -1)
+        {
+            k_cursor->key = 1;
+        }
+        else if (x == -1 && y == 1)
+        {
+            k_cursor->key = 2;
+        }
+        else if (x == 1 && y == 1)
+        {
+            k_cursor->key = 3;
         }
     }
 }

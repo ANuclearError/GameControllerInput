@@ -32,7 +32,7 @@ const char KEYBOARD[ROWS][COLS] = {
 /**
  * The keyboard's cursor
  */
-Cursor k_cursor = {0, 0, 3, -1};
+Cursor k_cursor = {0, 0, 2, -1};
 
 /**
  * The user input array
