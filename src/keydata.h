@@ -68,4 +68,20 @@ typedef struct Cursor
 	 */
 	int key;
 } Cursor;
+
+/**
+ * Action is a controller for various actions that can be performed.
+ */
+typedef struct Action{
+	/**
+	 * Whether action is to be performed.
+	 */
+	bool act;
+
+	/**
+	 * Last time action performed.
+	 */
+	Uint32 last;
+} Action;
+
 #endif // KEYDATA_H

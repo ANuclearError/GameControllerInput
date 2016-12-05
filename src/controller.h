@@ -12,6 +12,12 @@
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
 
+#define DEAD_ZONE 8000
+
+#define MIN_AXIS -32768
+
+#define MAX_AXIS 32767
+
 /**
  * Initialises the controller, ensuring that it is connected.
  */
@@ -31,6 +37,14 @@ Command get_command(SDL_GameControllerButton e);
  * @param k_cursor the cursor controlling keyboard.
  */
 void move(Cursor* k_cursor);
+
+/**
+ * Returns whether or not the given value is outside of the deadzone.
+ *
+ * @param val the axis value
+ * @return true if val outside of deadzone.
+ */
+bool out_dead_zone(int val);
 
 /**
  * Updates the given cursor with information taken from controller.

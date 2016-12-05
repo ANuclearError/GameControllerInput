@@ -55,12 +55,12 @@ const SDL_Color BG_COL = {21, 21, 21, SDL_ALPHA_OPAQUE};
 /**
  * The standard colour of keys
  */
-const SDL_Color KEY_COL = {117, 117, 117, SDL_ALPHA_OPAQUE};
+const SDL_Color KEY_COL = {75, 75, 75, SDL_ALPHA_OPAQUE};
 
 /**
  * The standard colour of keys
  */
-const SDL_Color HOVER_COL = {150, 150, 150, SDL_ALPHA_OPAQUE};
+const SDL_Color HOVER_COL = {100, 150, 101, SDL_ALPHA_OPAQUE};
 
 /**
  * The standard colour of keys

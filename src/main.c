@@ -32,7 +32,7 @@ const char KEYBOARD[ROWS][COLS] = {
 /**
  * The keyboard's cursor
  */
-Cursor k_cursor = {0, 0, 3, -1};
+Cursor k_cursor = {0, 0, 2, -1};
 
 /**
  * The user input array
@@ -58,6 +58,26 @@ int errors = 0;
  * The time the user started typing.
  */
 Uint32 start_time;
+
+/**
+ * The action for moving.
+ */
+Action move_action;
+
+/**
+ * The action for spacing.
+ */
+ Action space_action;
+
+/**
+ * The action for backspacing.
+ */
+ Action bspace_action;
+
+/**
+ * The action for selecting.
+ */
+ Action select_action;
 
 /**
  * Returns the mode that the given position in keyboard matrix corresponds to.
@@ -135,6 +155,25 @@ bool enter()
     return false;
 }
 
+void handle_input()
+{
+    if (pos == 0)
+    {
+        start_time = SDL_GetTicks();
+    }
+    
+    if (pos < 127)
+    {
+        input[pos] = get_selected_key();
+        if (input[pos] != prompt[pos])
+        {
+            errors++;
+            printf("Error %d\n", errors);
+        }
+        pos++;
+    }
+}
+
 /**
  * Refreshes the display, handling rendering of characters and input.
  */
@@ -206,12 +245,14 @@ int main(int argc, char* args[])
         return -1;
     }
 
-    bool do_move = false;
-    Uint32 last_move = SDL_GetTicks();
-    bool do_space = false;
-    Uint32 last_space = SDL_GetTicks();
-    bool do_backspace = false;
-    Uint32 last_backspace = SDL_GetTicks();
+    move_action.act = false;
+    move_action.last = SDL_GetTicks();
+    space_action.act = false;
+    space_action.last = SDL_GetTicks();
+    bspace_action.act = false;
+    bspace_action.last = SDL_GetTicks();
+    select_action.act = false;
+    select_action.last = SDL_GetTicks();
 
     bool run = splash();
     refresh();
@@ -231,13 +272,13 @@ int main(int argc, char* args[])
                 switch (com)
                 {
                     case COMMAND_MOVE:
-                    do_move = true;
+                    move_action.act = true;
                     break;
                     case COMMAND_SPACE:
-                    do_space = true;
+                    space_action.act = true;
                     break;
                     case COMMAND_BACKSPACE:
-                    do_backspace = true;
+                    bspace_action.act = true;
                     break;
                     case COMMAND_ENTER:
                     run = !enter();
@@ -253,13 +294,13 @@ int main(int argc, char* args[])
                 switch (com)
                 {
                     case COMMAND_MOVE:
-                    do_move = false;
+                    move_action.act = false;
                     break;
                     case COMMAND_SPACE:
-                    do_space = false;
+                    space_action.act = false;
                     break;
                     case COMMAND_BACKSPACE:
-                    do_backspace = false;
+                    bspace_action.act = false;
                     break;
                     default:
                     break;
@@ -267,23 +308,41 @@ int main(int argc, char* args[])
             }
         }
 
-        if (do_move && SDL_GetTicks() - last_move > 150)
+        if (move_action.act && SDL_GetTicks() - move_action.last > 200)
         {
             move(&k_cursor);
-            last_move = SDL_GetTicks();
+            move_action.last = SDL_GetTicks();
         }
 
-        if (do_space && SDL_GetTicks() - last_space > 150)
+        if (space_action.act && SDL_GetTicks() - space_action.last > 200)
         {
             space();
-            last_space = SDL_GetTicks();
+            space_action.last = SDL_GetTicks();
         }
 
-        if (do_backspace && SDL_GetTicks() - last_backspace > 150)
+        if (bspace_action.act && SDL_GetTicks() - bspace_action.last > 200)
         {
             backspace();
-            last_backspace = SDL_GetTicks();
+            bspace_action.last = SDL_GetTicks();
         }
+
+        if (!select_action.act)
+        {
+            select(&k_cursor);
+            if (k_cursor.key > -1)
+            {
+                select_action.act = true;
+                select_action.last = SDL_GetTicks();
+                handle_input();
+            }
+        }
+        else if (select_action.act && SDL_GetTicks() - select_action.last > 200)
+        {
+            select_action.act = false;
+            k_cursor.key = -1;
+            refresh();
+        }
+
         refresh();
     }
 

@@ -17,11 +17,6 @@
 #include "controller.h"
 
 /**
- * The deadzone of the controller, input is ignored inside this limit.
- */
-const int DEAD_ZONE = 8000;
-
-/**
  * The controller to read data from.
  */
 SDL_GameController* c = NULL;
@@ -124,6 +119,17 @@ void move(Cursor* k_cursor)
 }
 
 /**
+ * Returns whether or not the given value is outside of the deadzone.
+ *
+ * @param val the axis value
+ * @return true if val outside of deadzone.
+ */
+bool out_dead_zone(int val)
+{
+    return (val <-DEAD_ZONE) || (val > DEAD_ZONE);
+}
+
+/**
  * Updates the given cursor with information taken from controller.
  *
  * @param k_cursor the cursor controlling keyboard.
@@ -136,71 +142,18 @@ void select(Cursor* k_cursor)
     {
         k_cursor->key = 4;
     }
-    else
+    else if (out_dead_zone(x) || out_dead_zone(y))
     {
-        if (x < -DEAD_ZONE)
-        {
-            x = -1;
-        }
-        else if (x > DEAD_ZONE)
-        {
-            x = 1;
-        }
-        else
-        {
-            x = 0;
-        }
-
-        if (y < -DEAD_ZONE)
-        {
-            y = -1;
-        }
-        else if (y > DEAD_ZONE)
-        {
-            y = 1;
-        }
-        else
-        {
-            y = 0;
-        }
-
-
-        if (x != 0 || y != 0)
-        {
-            double angle = atan2((double)y, (double)x) * (180.0 / M_PI);
-            if (angle == -135)
-            {
-                k_cursor->key = 0;
-            }
-            else if (angle == -90)
-            {
-                k_cursor->key = 1;
-            }
-            else if (angle == -45)
-            {
-                k_cursor->key = 2;
-            }
-            else if (angle == 0)
-            {
-                k_cursor->key = 5;
-            }
-            else if (angle == 45)
-            {
-                k_cursor->key = 8;
-            }
-            else if (angle == 90)
-            {
-                k_cursor->key = 7;
-            }
-            else if (angle == 135)
-            {
-                k_cursor->key = 6;
-            }
-            else if (angle == 180)
-            {
-                k_cursor->key = 3;
-            }
-        }
+        x -= MIN_AXIS;
+        y -= MIN_AXIS;
+        int div = (MAX_AXIS - MIN_AXIS) / k_cursor->size;
+        x = x / div;
+        if (x == k_cursor->size)
+            x--;
+        y = y / div;
+        if (y == k_cursor->size)
+            y--;
+        k_cursor->key = (y * k_cursor->size) + x;
     }
 }
 
