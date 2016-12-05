@@ -104,7 +104,7 @@ char get_selected_key()
 void refresh()
 {
     clear_render();
-    render_input(input, prompt);
+    render_input(input, prompt, pos);
     for (int i = 0; i < ROWS; ++i)
     {
         for (int j = 0; j < COLS; ++j)
@@ -239,7 +239,7 @@ int main(int argc, char* args[])
                 }
             }
         }
-        else if (selected && SDL_GetTicks() - last_select > 250)
+        else if (selected && SDL_GetTicks() - last_select > 200)
         {
             selected = false;
             k_cursor.key = -1;

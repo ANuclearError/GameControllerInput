@@ -108,8 +108,9 @@ void display_splash()
  *
  * @param input the input to be displayed
  * @param prompt the prompt that is to be displayed
+ * @param pos the position of the caret in text entry
  */
-void render_input(char input[], char prompt[])
+void render_input(char input[], char prompt[], int pos)
 {
 	render_text(prompt, PROMPT_COL);
 	render_text(input, CHAR_COL);
@@ -121,10 +122,11 @@ void render_input(char input[], char prompt[])
 	for (int i = 0; i < i_len; i++)
 	{
 		if (i > p_len)
-			render_line(i, i_len);
+			render_line(i, i_len, ERR_COL);
 		else if (input[i] != prompt[i])
-			render_line(i, i_len);
+			render_line(i, i_len, ERR_COL);
 	}
+    render_line(pos, i_len, ENTER_COL);
 }
 
 /**
@@ -132,13 +134,16 @@ void render_input(char input[], char prompt[])
  *
  * @param pos the position of the incorrect character in string
  * @param length the length of the string the user has input
+ * @param colour the colour of the line to be displayed
  */
-void render_line(int pos, int length)
+void render_line(int pos, int length, SDL_Color colour)
 {
-	int width = text_rect.w / length;
+    int width = 26;
+    if (length > 0)
+	   width = text_rect.w / length;
 	int x = text_rect.x + (width * pos);
 	int y = text_rect.y + text_rect.h;
-	SDL_SetRenderDrawColor(renderer, ERR_COL.r, ERR_COL.g, ERR_COL.b, ERR_COL.a);
+	SDL_SetRenderDrawColor(renderer, colour.r, colour.g, colour.b, colour.a);
 	SDL_RenderDrawLine(renderer, x, y, x + width, y);
 }
 

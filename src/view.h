@@ -30,16 +30,18 @@ void clear_render();
  *
  * @param input the input to be displayed
  * @param prompt the prompt that is to be displayed
+ * @param pos the position of the caret in text entry
  */
-void render_input(char input[], char prompt[]);
+void render_input(char input[], char prompt[], int pos);
 
 /**
  * Renders a line underneath characters that are not correct.
  *
  * @param pos the position of the incorrect character in string
  * @param length the length of the string the user has input
+ * @param colour the colour of the line to be displayed
  */
-void render_line(int pos, int length);
+void render_line(int pos, int length, SDL_Color colour);
 
 /**
  * The renders the given text, giving it the colour provided.
