@@ -23,7 +23,7 @@
  * @param key the key that was pressed
  * @return command
  */
-Command get_command(SDL_Keycode key);
+Command get_key_command(SDL_Keycode key);
 
 /**
  * Updating the cursor to reflect the user input.
@@ -31,6 +31,6 @@ Command get_command(SDL_Keycode key);
  * @param key the key that was pressed
  * @param k_cursor the cursor struct containing information
  */
-void update_cursor(SDL_Keycode key, Cursor* k_cursor);
+void key_update_cursor(SDL_Keycode key, Cursor* k_cursor);
 
 #endif // KEYBOARD_H

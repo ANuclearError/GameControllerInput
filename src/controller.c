@@ -24,7 +24,7 @@ const int DEAD_ZONE = 8000;
 /**
  * The controller to read data from.
  */
-SDL_GameController* controller = NULL;
+SDL_GameController* c = NULL;
 
 /**
  * Initialises the controller, ensuring that it is connected.
@@ -34,8 +34,8 @@ bool controller_init() {
     {
         if (SDL_IsGameController(i))
         {
-            controller = SDL_GameControllerOpen(i);
-            if (controller)
+            c = SDL_GameControllerOpen(i);
+            if (c)
             {
                 return true;
             }
@@ -47,7 +47,7 @@ bool controller_init() {
         }
     }
 
-    if (controller == NULL)
+    if (c == NULL)
     {
         printf("SDL_Error controller: %s\n", SDL_GetError());
         return false;
@@ -77,6 +77,15 @@ Command get_command(SDL_GameControllerButton e)
     {
         return COMMAND_ENTER;
     }
+
+    if (e == SDL_CONTROLLER_BUTTON_DPAD_UP ||
+        e == SDL_CONTROLLER_BUTTON_DPAD_DOWN ||
+        e == SDL_CONTROLLER_BUTTON_DPAD_LEFT ||
+        e == SDL_CONTROLLER_BUTTON_DPAD_RIGHT)
+    {
+        return COMMAND_MOVE;
+    }
+
     return COMMAND_TOTAL;
 }
 
@@ -87,13 +96,11 @@ Command get_command(SDL_GameControllerButton e)
  */
 void move(Cursor* k_cursor)
 {
-    int x = SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_LEFTX);
-    int y = SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_LEFTY);
-    if (x > DEAD_ZONE)
+    if (SDL_GameControllerGetButton(c, SDL_CONTROLLER_BUTTON_DPAD_RIGHT))
     {
         k_cursor->x = (k_cursor->x + 1) % (COLS - k_cursor->size + 1);
     }
-    else if (x < -DEAD_ZONE)
+    else if (SDL_GameControllerGetButton(c, SDL_CONTROLLER_BUTTON_DPAD_LEFT))
     {
         k_cursor->x = k_cursor->x - 1;
         if (k_cursor->x < 0)
@@ -101,11 +108,12 @@ void move(Cursor* k_cursor)
             k_cursor->x = COLS - k_cursor->size;
         }
     }
-    else if (y > DEAD_ZONE)
+    
+    if (SDL_GameControllerGetButton(c, SDL_CONTROLLER_BUTTON_DPAD_DOWN))
     {
         k_cursor->y = (k_cursor->y + 1) % (ROWS - k_cursor->size + 1);
     }
-    else if (y < -DEAD_ZONE)
+    else if (SDL_GameControllerGetButton(c, SDL_CONTROLLER_BUTTON_DPAD_UP))
     {
         k_cursor->y = k_cursor->y - 1;
         if (k_cursor->y < 0)
@@ -122,10 +130,9 @@ void move(Cursor* k_cursor)
  */
 void select(Cursor* k_cursor)
 {
-    int x = SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_RIGHTX);
-    int y = SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_RIGHTY);
-    if (SDL_GameControllerGetButton(controller,
-                                    SDL_CONTROLLER_BUTTON_RIGHTSTICK))
+    int x = SDL_GameControllerGetAxis(c, SDL_CONTROLLER_AXIS_RIGHTX);
+    int y = SDL_GameControllerGetAxis(c, SDL_CONTROLLER_AXIS_RIGHTY);
+    if (SDL_GameControllerGetButton(c, SDL_CONTROLLER_BUTTON_RIGHTSTICK))
     {
         k_cursor->key = 4;
     }
@@ -202,6 +209,6 @@ void select(Cursor* k_cursor)
  */
 void controller_close()
 {
-    SDL_GameControllerClose(controller);
-    controller = NULL;
+    SDL_GameControllerClose(c);
+    c = NULL;
 }

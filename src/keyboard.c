@@ -13,7 +13,7 @@
 #include "keydata.h"
 #include "keyboard.h"
 
-Command get_command(SDL_Keycode key)
+Command get_key_command(SDL_Keycode key)
 {
 	if (key == SDLK_w || key == SDLK_a || key == SDLK_s || key == SDLK_d)
 	{
@@ -42,7 +42,7 @@ Command get_command(SDL_Keycode key)
 	return COMMAND_TOTAL;
 }
 
-void update_cursor(SDL_Keycode key, Cursor* k_cursor)
+void key_update_cursor(SDL_Keycode key, Cursor* k_cursor)
 {
 	if (key >= SDLK_KP_1 && key <= SDLK_KP_9)
 	{

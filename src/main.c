@@ -14,7 +14,7 @@
 #include <stdbool.h>
 #include "keydata.h"
 #include "controller.h"
-//#include "keyboard.h"
+#include "keyboard.h"
 #include "view.h"
 
 /**
@@ -98,6 +98,34 @@ char get_selected_key()
     return KEYBOARD[k_cursor.y + y][k_cursor.x + x];
 }
 
+void space()
+{
+    input[pos]= ' ';
+    if (input[pos] != prompt[pos])
+    {
+        errors++;
+        printf("Error %d\n", errors);
+    }
+    pos++;
+}
+
+void backspace()
+{
+    pos = (pos - 1 > 0) ? pos - 1 : 0;
+    input[pos] = '\0';
+}
+
+bool enter()
+{
+    if(strcmp(input, prompt) == 0)
+    {
+        Uint32 time = SDL_GetTicks() - start_time;
+        printf("Time taken %d Errors %d\n", time, errors);
+        return true;
+    }
+    return false;
+}
+
 /**
  * Refreshes the display, handling rendering of characters and input.
  */
@@ -120,6 +148,37 @@ void refresh()
 }
 
 /**
+ * Displays the splash screen, and returns whether or not the user has
+ * decided to quite the program.
+ *
+ * @return true if user pressed to continue, false if user pressed close button.
+ */
+bool splash()
+{
+    SDL_Event e;
+
+    bool splash = true;
+    display_splash();
+    while (splash)
+    {
+        while (SDL_PollEvent(&e) != 0)
+        {
+            if (e.type == SDL_QUIT)
+            {
+                splash = false;
+                return false;
+            }
+            else if (e.type == SDL_CONTROLLERBUTTONDOWN)
+            {
+                splash = false;
+                return true;
+            }
+        }
+    }
+    return true;
+}
+
+/**
  * #include <SDL.h>
  *
  * The main control loop of the system, handling events etc.
@@ -138,33 +197,17 @@ int main(int argc, char* args[])
         return -1;
     }
 
+    bool do_move = false;
     Uint32 last_move = SDL_GetTicks();
-    Uint32 last_select = SDL_GetTicks();
-    Uint32 last_action = SDL_GetTicks();
-    bool action = false;
-    bool selected = false;
-    bool run = true;
-    SDL_Event e;
+    bool do_space = false;
+    Uint32 last_space = SDL_GetTicks();
+    bool do_backspace = false;
+    Uint32 last_backspace = SDL_GetTicks();
 
-    bool splash = true;
-    display_splash();
-    while (splash)
-    {
-        while (SDL_PollEvent(&e) != 0)
-        {
-            if (e.type == SDL_QUIT)
-            {
-                splash = false;
-                run = false;
-            }
-            else if (e.type == SDL_CONTROLLERBUTTONDOWN)
-            {
-                splash = false;
-            }
-        }
-    }
-
+    bool run = splash();
     refresh();
+
+    SDL_Event e;
     while (run)
     {
         while (SDL_PollEvent(&e) != 0)
@@ -173,36 +216,41 @@ int main(int argc, char* args[])
             {
                 run = false;
             }
-            else if (e.type == SDL_CONTROLLERBUTTONDOWN && !action)
+            else if (e.type == SDL_CONTROLLERBUTTONDOWN)
             {
-                action = true;
                 Command com = get_command(e.cbutton.button);
                 switch (com)
                 {
+                    case COMMAND_MOVE:
+                    do_move = true;
+                    break;
                     case COMMAND_SPACE:
-                    input[pos] = ' ';
-                    if (input[pos] != prompt[pos])
-                    {
-                        errors++;
-                        printf("Error %d\n", errors);
-                    }
-                    pos++;
+                    do_space = true;
                     break;
                     case COMMAND_BACKSPACE:
-                    pos = (pos - 1 > 0) ? pos - 1 : 0;
-                    input[pos] = '\0';
-                    refresh();
+                    do_backspace = true;
                     break;
                     case COMMAND_ENTER:
-                    if (strcmp(input, prompt) == 0) {
-                        Uint32 time = SDL_GetTicks() - start_time;
-                        printf("Time taken %d Errors %d\n", time, errors);
-                        run = false;
-                        SDL_Delay(5000);
-                    }
-                    else {
-                        printf("You ain't down, keep going\n");
-                    }
+                    run = !enter();
+                    refresh();
+                    break;
+                    default:
+                    break;
+                }
+            }
+            else if (e.type == SDL_CONTROLLERBUTTONUP)
+            {
+                Command com = get_command(e.cbutton.button);
+                switch (com)
+                {
+                    case COMMAND_MOVE:
+                    do_move = false;
+                    break;
+                    case COMMAND_SPACE:
+                    do_space = false;
+                    break;
+                    case COMMAND_BACKSPACE:
+                    do_backspace = false;
                     break;
                     default:
                     break;
@@ -210,46 +258,24 @@ int main(int argc, char* args[])
             }
         }
 
-        refresh();
-        if (SDL_GetTicks() - last_move > 100)
+        if (do_move && SDL_GetTicks() - last_move > 150)
         {
             move(&k_cursor);
             last_move = SDL_GetTicks();
         }
-        if (!selected)
+
+        if (do_space && SDL_GetTicks() - last_space > 150)
         {
-            select(&k_cursor);
-            if (k_cursor.key > - 1)
-            {
-                selected = true;
-                last_select = SDL_GetTicks();
-                if (pos == 0)
-                {
-                    start_time = SDL_GetTicks();
-                }
-                if (pos < 127)
-                {
-                    input[pos] = get_selected_key();
-                    if (input[pos] != prompt[pos])
-                    {
-                        errors++;
-                        printf("Error %d\n", errors);
-                    }
-                    pos++;
-                }
-            }
+            space();
+            last_space = SDL_GetTicks();
         }
-        else if (selected && SDL_GetTicks() - last_select > 200)
+
+        if (do_backspace && SDL_GetTicks() - last_backspace > 150)
         {
-            selected = false;
-            k_cursor.key = -1;
-            refresh();
+            backspace();
+            last_backspace = SDL_GetTicks();
         }
-        if (SDL_GetTicks() - last_action > 100 && action)
-        {
-            last_action = SDL_GetTicks();
-            action = false;
-        }
+        refresh();
     }
 
     controller_close();
