@@ -18,6 +18,8 @@
  */
 bool view_init();
 
+void display_splash();
+
 /**
  * Clears the current screen.
  */
@@ -30,7 +32,6 @@ void clear_render();
  * @param prompt the prompt that is to be displayed
  */
 void render_input(char input[], char prompt[]);
-
 
 /**
  * Renders a line underneath characters that are not correct.

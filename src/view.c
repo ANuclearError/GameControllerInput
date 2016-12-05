@@ -95,6 +95,14 @@ bool view_init()
 	return true;
 }
 
+void display_splash()
+{
+	SDL_Surface* loaded = SDL_LoadBMP("instructions.bmp");
+	SDL_Surface* screen = SDL_GetWindowSurface(window);
+	SDL_BlitSurface(loaded, NULL, screen, NULL);
+	SDL_UpdateWindowSurface(window);
+}
+
 /**
  * Renders the input text and prompt.
  *

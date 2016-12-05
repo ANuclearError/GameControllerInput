@@ -145,6 +145,25 @@ int main(int argc, char* args[])
     bool selected = false;
     bool run = true;
     SDL_Event e;
+
+    bool splash = true;
+    display_splash();
+    while (splash)
+    {
+        while (SDL_PollEvent(&e) != 0)
+        {
+            if (e.type == SDL_QUIT)
+            {
+                splash = false;
+                run = false;
+            }
+            else if (e.type == SDL_CONTROLLERBUTTONDOWN)
+            {
+                splash = false;
+            }
+        }
+    }
+
     refresh();
     while (run)
     {
@@ -220,7 +239,7 @@ int main(int argc, char* args[])
                 }
             }
         }
-        else if (selected && SDL_GetTicks() - last_select > 150)
+        else if (selected && SDL_GetTicks() - last_select > 250)
         {
             selected = false;
             k_cursor.key = -1;
