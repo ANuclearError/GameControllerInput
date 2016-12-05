@@ -98,6 +98,9 @@ char get_selected_key()
     return KEYBOARD[k_cursor.y + y][k_cursor.x + x];
 }
 
+/**
+ * Adds space to input.
+ */
 void space()
 {
     input[pos]= ' ';
@@ -109,12 +112,18 @@ void space()
     pos++;
 }
 
+/**
+ * Performs backspace on input.
+ */
 void backspace()
 {
     pos = (pos - 1 > 0) ? pos - 1 : 0;
     input[pos] = '\0';
 }
 
+/**
+ * Returns if the user's entered text matches the given prompt.
+ */
 bool enter()
 {
     if(strcmp(input, prompt) == 0)
