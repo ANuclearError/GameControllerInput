@@ -233,6 +233,11 @@ bool splash()
  */
 int main(int argc, char* args[])
 {
+    if (argc > 1)
+    {
+        k_cursor.size = atoi(args[1]);
+    }
+
     // Init everything
     if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
     {
@@ -255,6 +260,7 @@ int main(int argc, char* args[])
     select_action.last = SDL_GetTicks();
 
     bool run = splash();
+    SDL_Delay(100);
     refresh();
 
     SDL_Event e;

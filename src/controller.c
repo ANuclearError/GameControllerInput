@@ -138,7 +138,12 @@ void select(Cursor* k_cursor)
 {
     int x = SDL_GameControllerGetAxis(c, SDL_CONTROLLER_AXIS_RIGHTX);
     int y = SDL_GameControllerGetAxis(c, SDL_CONTROLLER_AXIS_RIGHTY);
-    if (SDL_GameControllerGetButton(c, SDL_CONTROLLER_BUTTON_RIGHTSTICK))
+    if (k_cursor->size == 1)
+    {
+        if (SDL_GameControllerGetButton(c, SDL_CONTROLLER_BUTTON_A))
+            k_cursor->key = 0;
+    }
+    else if (SDL_GameControllerGetButton(c, SDL_CONTROLLER_BUTTON_RIGHTSTICK))
     {
         k_cursor->key = 4;
     }
