@@ -126,7 +126,7 @@ void move(Cursor* k_cursor)
  */
 bool out_dead_zone(int val)
 {
-    return (val <-DEAD_ZONE) || (val > DEAD_ZONE);
+    return (val < -DEAD_ZONE) || (val > DEAD_ZONE);
 }
 
 /**

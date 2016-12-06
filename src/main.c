@@ -26,7 +26,7 @@ const char KEYBOARD[ROWS][COLS] = {
     {'1', '2', '3', '4', '5', '6', '7', '8', '9', '0'},
     {'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'},
     {'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', '\''},
-    {'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '?'}
+    {'\0', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.'}
 };
 
 /**
@@ -162,9 +162,10 @@ void handle_input()
         start_time = SDL_GetTicks();
     }
     
-    if (pos < 127)
+    char c = get_selected_key();
+    if (pos < 127 && c != '\0')
     {
-        input[pos] = get_selected_key();
+        input[pos] = c;
         if (input[pos] != prompt[pos])
         {
             errors++;

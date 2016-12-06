@@ -12,7 +12,7 @@
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
 
-#define DEAD_ZONE 8000
+#define DEAD_ZONE 12000
 
 #define MIN_AXIS -32768
 
