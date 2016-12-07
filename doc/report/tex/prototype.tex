@@ -2,6 +2,82 @@
 \begin{document}
 \section{High Fidelity Prototype} % (fold)
 \label{sec:high_fidelity_prototype}
+\subsection{Prototype Format} % (fold)
+\label{sub:prototype_format}
+The high fidelity prototype became a basic implementation of the system being
+proposed, interactive with a game controller and including some performance
+measuring abilities. Due to how the nature of the topic necessitates the use of
+a game controller when talking to users about the design, as well as the
+somewhat simpler nature of the tasks being performed, the decision to work
+towards a more complete implementation felt reasonable with the deadlines
+imposed. However, it did have the downside that user feedback did relate to the
+granular aspects of the implementation, to some detriment to evaluating the
+design concept as a whole.
+% subsection prototype_format (end)
 
+\subsection{Development Environment} % (fold)
+\label{sub:development_environment}
+The prototype was developed in C, with heavy use of the Simple DirectMedia Layer
+library. SDL is a library that handles low-level access to hardware devices such
+as keyboard or game controller events, as well as handling graphics rendering as
+well. This meant that the rendering of the keyboard, the game controller event
+handling, and other aspects of the system were handled by a single library,
+making the development of the prototype easier.
+
+SDL was chosen due to it being a popular library in video game
+development, being used in various popular games and engines such as Valve's
+Source Engine. This meant that there were many resources available for learning
+the library, as well as sufficient documentation provided to allow for easier
+development with the library.
+% subsection development_environment (end)
+
+\subsection{Prototype Features} % (fold)
+\label{sub:prototype_features}
+The prototype included a single 40 character keyboard, including the lower case
+alphabet, digits and some punctuation marks. The prototype allowed for the user
+to perform text entry using a game controller, controlling the movement of a
+square grid (between 1 and 3 keys in size) and the selection of characters
+within this grid. The prototype also included spacing and backspacing as well,
+since these were necessary to error handling and in completing full sentences
+for the evaluation.
+
+Since the focus of the project was specifically about the character selection,
+shifting to upper case characters or more punctuation marks was omitted, since
+these actions would not change with the proposed design. In addition, the
+ability to move the carat left to right in the input was not included, since
+they were again not being included, and it was felt that the user would not
+need them for evaluation purposes. Since the baseline comparison of the standard
+keyboard input was done using this prototype, the input method being designed
+was an equal comparison.
+% subsection prototype_features (end)
+
+\subsection{Development Lifecycle} % (fold)
+\label{sub:development_lifecycle}
+Before developing the prototype, it was required to implement the basic input
+method currently used in consoles. This was required so that comparisons could
+be made between the prototype and the original system. The prototype's code was
+designed and implemented in a way to allow for the size of selection matrix to
+be modified to 2x2 or 3x3 grids, which were the two prototypes to be evaluated.
+% subsection development_lifecycle (end)
+
+\subsection{Prototype Control Flow} % (fold)
+\label{sub:prototype_control_flow}
+\begin{enumerate}
+	\item Prototype displays instructions for user to acknowledge.
+	\item Keyboard is played with faded prompt.
+	\item Current position of carat is underlined.
+	\item While prompt is not complete.
+	\begin{enumerate}
+		\item User moves cursor with directional pad.
+		\item User selects character (button for original, right stick for
+		new proposed design).
+		\item If selected character does not match prompt's, it is underlined
+		red and error is registered.
+		\item Carat moves to next character.
+	\end{enumerate}
+	\item User submits text.
+	\item Task duration is provided and number of errors shown.
+\end{enumerate}
+% subsection prototype_control_flow (end)
 % section high_fidelity_prototype (end)
 \end{document}
