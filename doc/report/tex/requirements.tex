@@ -108,13 +108,17 @@ requirements tables show the before and after affect of the user testing.
 \end{table}
 % subsubsection before_would_have (end)
 % subsection before_user_testing (end)
-
-\newpage
 \subsection{After Using Testing} % (fold)
 The following tables outline the changes made to requirements after user
 testing. \emph{Emphasised} text indicates a new or altered requirement, while
 \textbf{bold} text indicates that this requirement was implemented in the high
-fidelity prototype.
+fidelity prototype. If the proposed keyboard system were to be fully developed
+for a games console, then all the `must have' requirements would be necessary,
+but since the prototype was focused on the character method aspect of the
+input, it was felt that a particular focus was required for the prototype.
+
+In addition to the user contributions, an expansion was made with regards to
+non-functional requirements.
 
 \subsubsection{Must Have} % (fold)
 \label{ssub:after_must_have}
@@ -124,7 +128,41 @@ fidelity prototype.
  \hline
  \textbf{Requirement} & \textbf{Description} & \textbf{Functional} \\
  \hline
- Req & Desc & \\
+ \textbf{Keyboard display} & The on-screen keyboard must display a grid of
+ selectable characters, acting as the keyboard. & Functional \\
+ \hline
+ \textbf{Cursor display} & The area of characters that the user is able to
+ select from must be highlighted to the user, to allow them to see the position
+ of the cursor in the keyboard. & Functional \\
+ \hline
+ \textbf{Input Display} & The display must show the text the user has already
+ input, as well as the carat showing text is being input. & Functional \\
+ \hline
+ \textbf{Alphabet} & The keyboard must also for the selection of alphanumeric
+ characters, with additional punctuation marks to round the total number
+ available. & Functional \\
+ \hline
+ \textbf{Spacing} & The user must have a way to add a space to the text they are
+ entering. & Functional \\
+ \hline
+ \textbf{\emph{Movement}} & The user must be able to move the cursor, using the
+ directional pad. & Functional \\
+ \hline
+ \textbf{Backspacing} & The user must have a way to backspace when they wish to
+ change the text. & Functional \\
+ \hline
+ \textbf{Selection} & The user must be able to select from the grid of
+ characters, using the right control stick. Where the user moves the stick
+ determines which character is selected. & Functional \\
+ \hline
+ Move carat & The user must be able to use the triggers to move the carat left
+ or right, changing where text is being input. & Functional \\
+ \hline
+ Switch case & The user must be able to switch between upper and lower case.
+ & Functional \\
+ \hline
+ \textbf{Submission} & The user must be able to submit their finished input
+ using the options button. & Functional \\
  \hline
 \end{tabularx}
 \end{table}
@@ -138,7 +176,33 @@ fidelity prototype.
  \hline
  \textbf{Requirement} & \textbf{Description} & \textbf{Functional} \\
  \hline
- Req & Desc & \\
+ Punctuation & The keyboard should allow for switch to a wider selection of
+ punctuation marks. & Functional \\
+ \hline
+ Responsiveness & The display should quickly update to match the user's input,
+ so that fast sequences of typing are accurate. & Non-functional \\
+ \hline
+ \emph{Error Feedback} & The word currently being typed should have visual
+ feedback if it is misspelt. & Functional \\
+ \hline
+ \textbf{\emph{Smaller Matrix}} & The selection matrix should be 2x2 rather than
+ 3x3, due to concerns that 8 way movement with the control stick could result
+ in increased errors. & Functional \\
+ \hline
+ \emph{Resources} & The system should have minimal use of resources, requiring
+ little memory or processing time. & Non-functional \\
+ \hline
+ \emph{Maintainability} & The keyboard design should be maintainable to allow
+ for easier modification, to allow for example, a larger grid or different
+ alphabets. & Non-functional \\
+ \hline
+ \emph{Reliability} & The movement of the right control stick for character
+ selection should be reliable so that the user's desired character matches their
+ movement, without being askew. & Non-functional \\
+ \hline
+ \emph{Data Integrity} & The system should ensure that the input being provided
+ by the user is correct, and remains the same unless the user has specifically
+ performed an action. & Non-functional \\
  \hline
 \end{tabularx}
 \end{table}
@@ -152,7 +216,15 @@ fidelity prototype.
  \hline
  \textbf{Requirement} & \textbf{Description} & \textbf{Functional} \\
  \hline
- Req & Desc & \\
+ Predictive Text & The display could suggest words to the user, providing a
+ mechanism for auto-completion & Functional \\
+ \hline
+ Accents & The keyboard could include a mechanism for adding accents to
+ characters in the Latin Alphabet, for languages such as French. & Functional \\
+ \hline
+ \emph{Character confirmation} & When the user wishes to select a character, a
+ button press could be required in addition to control stick movement to ensure
+ accuracy. & Functional \\
  \hline
 \end{tabularx}
 \end{table}
@@ -166,7 +238,9 @@ fidelity prototype.
  \hline
  \textbf{Requirement} & \textbf{Description} & \textbf{Functional} \\
  \hline
- Req & Desc & \\
+ Different alphabets & The system would be able to handle different alphabets
+ such as Greek or Cyrillic, with the display shape being altered to match this.
+ & Functional \\
  \hline
 \end{tabularx}
 \end{table}

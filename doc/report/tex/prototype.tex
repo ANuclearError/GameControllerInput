@@ -46,9 +46,8 @@ shifting to upper case characters or more punctuation marks was omitted, since
 these actions would not change with the proposed design. In addition, the
 ability to move the carat left to right in the input was not included, since
 they were again not being included, and it was felt that the user would not
-need them for evaluation purposes. Since the baseline comparison of the standard
-keyboard input was done using this prototype, the input method being designed
-was an equal comparison.
+need them for evaluation purposes. The prototype was used for fair comparison
+between the standard method, and the designed ones.
 % subsection prototype_features (end)
 
 \subsection{Development Lifecycle} % (fold)
@@ -75,7 +74,7 @@ be modified to 2x2 or 3x3 grids, which were the two prototypes to be evaluated.
 		red and error is registered.
 		\item Carat moves to next character.
 	\end{enumerate}
-	\item User submits text.
+	\item User submits text. Return to loop if input does not match prompt.
 	\item Task duration is provided and number of errors shown.
 \end{enumerate}
 % subsection prototype_control_flow (end)
