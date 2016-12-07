@@ -2,46 +2,173 @@
 \begin{document}
 \section{Requirements} % (fold)
 \label{sec:requirements}
+The requirements were gathered and divided using the MoSCoW method, resulting
+in four sections: `must have', `should have', `could have' and `won't die'. The
+requirements tables show the before and after affect of the user testing.
 
-\subsection{Input} % (fold)
-\label{sub:input}
-The user must be able to use the left analogue stick of the controller to move
-the cursor matrix on the display. This indicates which group of characters the
-user wishes to select from. The user must also be able to use the right stick to
-then select which specific character they wish to input, with the direction the
-stick is pushed selecting the character. Pressing down on the right stick must
-select the middle character of the matrix.
+\subsection{Before User Testing} % (fold)
+\label{sub:before_user_testing}
+\subsubsection{Must Have} % (fold)
+\label{ssub:before_must_have}
+\begin{table}[H]
+\small
+\begin{tabularx}{\textwidth}{| l | X | l |}
+ \hline
+ \textbf{Requirement} & \textbf{Description} & \textbf{Functional} \\
+ \hline
+ Keyboard display & The on-screen keyboard must display a grid of selectable
+ characters, acting as the keyboard. & Functional \\
+ \hline
+ Cursor display & The area of characters that the user is able to select from
+ must be highlighted to the user, to allow them to see the position of the
+ cursor in the keyboard. & Functional \\
+ \hline
+ Input Display & The display must show the text the user has already input, as
+ well as the carat showing text is being input. & Functional \\
+ \hline
+ Alphabet & The keyboard must also for the selection of alphanumeric characters,
+ with additional punctuation marks to round the total number available. &
+ Functional \\
+ \hline
+ Spacing & The user must have a way to add a space to the text they are
+ entering. & Functional \\
+ \hline
+ Movement & The user must be able to move the cursor, using the left control
+ stick. & Functional \\
+ \hline
+ Backspacing & The user must have a way to backspace when they wish to change
+ the text. & Functional \\
+ \hline
+ Selection & The user must be able to select from the grid of characters, using
+ the right control stick. Where the user moves the stick determines which
+ character is selected. & Functional \\
+ \hline
+ Move carat & The user must be able to use the triggers to move the carat left
+ or right, changing where text is being input. & Functional \\
+ \hline
+ Switch case & The user must be able to switch between upper and lower case.
+ & Functional \\
+ \hline
+ Submission & The user must be able to submit their finished input using the
+ options button. & Functional \\
+ \hline
+\end{tabularx}
+\end{table}
+% subsubsection before_must_have (end)
 
-The user must also be able to use the trigger buttons to move the caret either
-left or right depending on which is pressed. The user must also be able to
-backspace or add a space using the bumpers in a similar way.
+\subsubsection{Should Have} % (fold)
+\label{ssub:before_should_have}
+\begin{table}[H]
+\small
+\begin{tabularx}{\textwidth}{| l | X | l |}
+ \hline
+ \textbf{Requirement} & \textbf{Description} & \textbf{Functional} \\
+ \hline
+ Punctuation & The keyboard should allow for switch to a wider selection of
+ punctuation marks. & Functional \\
+ Responsiveness & The display should quickly update to match the user's input,
+ so that fast sequences of typing are accurate. & Non-functional \\
+ \hline
+\end{tabularx}
+\end{table}
+% subsubsection before_should_have (end)
 
-The user must also be able to switch between upper and lower case letters (or
-punctuation marks). The user must be able to submit the text by pressing the
-start button. The user should be able to cancel the text input by pressing a
-button, although for prototype purposes, this will simply clear text instead.
-% subsection input (end)
+\subsubsection{Could Have} % (fold)
+\label{ssub:before_could_have}
+\begin{table}[H]
+\small
+\begin{tabularx}{\textwidth}{| l | X | l |}
+ \hline
+ \textbf{Requirement} & \textbf{Description} & \textbf{Functional} \\
+ \hline
+ Predictive Text & The display could suggest words to the user, providing a
+ mechanism for auto-completion & Functional \\
+ Accents & The keyboard could include a mechanism for adding accents to
+ characters in the Latin Alphabet, for languages such as French. & Functional \\
+ \hline
+\end{tabularx}
+\end{table}
+% subsubsection before_could_have (end)
 
-\subsection{Character Sets} % (fold)
-\label{sub:character_sets}
-The system must allow the user to input alphanumeric characters, both upper and
-lower case, with basic punctuation marks to round the resulting matrix to 40
-characters (10 numbers, 26 letters and 4 punctuation marks). The system should
-also support the remaining punctuation marks. The system could allow for accents
-to be applied to certain characters as well, while it would also support
-additional languages such as Greek or Cyrillic.
-% subsection character_sets (end)
+\subsubsection{Would Have} % (fold)
+\label{ssub:before_would_have}
+\begin{table}[H]
+\small
+\begin{tabularx}{\textwidth}{| l | X | l |}
+ \hline
+ \textbf{Requirement} & \textbf{Description} & \textbf{Functional} \\
+ \hline
+ Different alphabets & The system would be able to handle different alphabets
+ such as Greek or Cyrillic, with the display shape being altered to match this.
+ & Functional \\
+ \hline
+\end{tabularx}
+\end{table}
+% subsubsection before_would_have (end)
+% subsection before_user_testing (end)
 
-\subsection{Display} % (fold)
-\label{sub:display}
-The on-screen keyboard must display a matrix of characters that acts as the
-keyboard. It must also highlight the part of this matrix that corresponds to
-where the cursor is currently positioned. It must also show the user the current
-text they have input, as well as the position of the caret indicating where text
-is being input. The display should respond quickly to any input from the user,
-in order to prevent the user from needlessly waiting. The display could also
-display predictive text, although this feature is already provided by consoles,
-and would not need changed to integrate with this new system.
-% subsection display (end)
+\newpage
+\subsection{After Using Testing} % (fold)
+The following tables outline the changes made to requirements after user
+testing. \emph{Emphasised} text indicates a new or altered requirement, while
+\textbf{bold} text indicates that this requirement was implemented in the high
+fidelity prototype.
+
+\subsubsection{Must Have} % (fold)
+\label{ssub:after_must_have}
+\begin{table}[H]
+\small
+\begin{tabularx}{\textwidth}{| l | X | l |}
+ \hline
+ \textbf{Requirement} & \textbf{Description} & \textbf{Functional} \\
+ \hline
+ Req & Desc & \\
+ \hline
+\end{tabularx}
+\end{table}
+% subsubsection after_must_have (end)
+
+\subsubsection{Should Have} % (fold)
+\label{ssub:after_should_have}
+\begin{table}[H]
+\small
+\begin{tabularx}{\textwidth}{| l | X | l |}
+ \hline
+ \textbf{Requirement} & \textbf{Description} & \textbf{Functional} \\
+ \hline
+ Req & Desc & \\
+ \hline
+\end{tabularx}
+\end{table}
+% subsubsection after_should_have (end)
+
+\subsubsection{Could Have} % (fold)
+\label{ssub:after_could_have}
+\begin{table}[H]
+\small
+\begin{tabularx}{\textwidth}{| l | X | l |}
+ \hline
+ \textbf{Requirement} & \textbf{Description} & \textbf{Functional} \\
+ \hline
+ Req & Desc & \\
+ \hline
+\end{tabularx}
+\end{table}
+% subsubsection after_could_have (end)
+
+\subsubsection{Would Have} % (fold)
+\label{ssub:after_would_have}
+\begin{table}[H]
+\small
+\begin{tabularx}{\textwidth}{| l | X | l |}
+ \hline
+ \textbf{Requirement} & \textbf{Description} & \textbf{Functional} \\
+ \hline
+ Req & Desc & \\
+ \hline
+\end{tabularx}
+\end{table}
+% subsubsection after_would_have (end)
+% subsection after_using_testing (end)
 % section requirements (end)
 \end{document}
