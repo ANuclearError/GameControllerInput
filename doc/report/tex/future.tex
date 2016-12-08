@@ -2,6 +2,96 @@
 \begin{document}
 \section{Future Work and Recommendations} % (fold)
 \label{sec:future_work_and_recommendations}
+The current stage of the prototype allows for many opportunities with regards
+to future work that can, with many ideas that could not be investigated without
+a more long term strategy in mind. Along with improvements to the current
+prototype (taking both the 2x2 and 3x3 versions forward at this stage), there
+are more extreme variations that stick to the core `select a character from a
+grid using the right control tick' feature that was the primary focus of the
+project. In addition, there is a basis for future evaluation of the designed
+system as it is refined and iterated upon.
 
+\subsection{Future Improvements} % (fold)
+\label{sub:future_improvements}
+The immediate improvements that should be made is a mastering of how the right
+control stick movement corresponds to selected characters in the 3x3 version of
+the prototype. Dividing the joystick movement into 8 sections of 45 degrees each proved to be a source of difficulty to users, and thus there needs to be a way
+to improve upon this. While it is likely that users would become used to the
+movement with extended usage, it would be ideal to ensure that the experience
+for novice users of the prototype do not have these issues.
+
+After finishing tweaking of the selection system, the future work with the
+prototype would be expanding the features of text input method to match the
+expected features of an on-screen keyboard. This includes the features such as
+changing cases, allowing for more punctuation marks and moving the caret to the
+left and right in the input text. While the inclusion of these features was
+deemed superfluous to evaluating the character selection, it would be beneficial
+to include these features at this stage as well, so that the next stages would
+be performed with all features being available.
+% subsection future_improvements (end)
+
+\subsection{Other Approaches} % (fold)
+\label{sub:other_approaches}
+There are more alternative designs that could be considered alongside the one
+proposed, which branch off the prototype designed as part of this project.
+After taking the 2x2 grid version of the prototype on board after user testing,
+it was realised that it could potentially be combined with the Steam controller
+entry method outlined in Section \ref{sub:steam_controller}.
+
+The basic concept of this design would involve splitting the keyboard into
+two sections vertically and having two separate 2x2 cursor grids rather than
+just the one in the current prototype. These cursors would have two modes: move
+mode (the default) and selection mode. Selection mode would be triggered by the
+holding of a button (the left and right bumpers being the most appropriate for
+each cursor), at which point movement of the control stick would select one of
+the four characters rather than move the cursor. Selection of a character could
+be confirmed by the release of the button, or instead the user could select
+multiple characters while the button is held. The prototype would require some
+modification, mainly to handling events triggered by user actions with the
+controller. However, the prototype should be able to handle multiple cursors
+without any issues.
+
+If considering this alternative design, then the primary concern during
+evaluation would be the user's co-ordination while controlling two cursors.
+Some users may struggle with using both cursors simultaneously, resulting in
+reduced efficiency. However, these problems are ones that Valve have already had
+to consider when designing their controller, meaning they must believe that this
+does not present a problem for the majority of users.
+% subsection other_approaches (end)
+
+\subsection{Future Evaluation} % (fold)
+\label{sub:future_evaluation}
+The primary concern regarding evaluation during any future work with the design,
+is the need for users to be able to use the text entry method over a much longer
+period of time. All the studies considered in the literate review (Section
+\ref{sec:literate_review}) show that a long term approach to evaluation was
+taken with the implementation of their designs.
+
+A long term evaluation would involve a larger group of users than those used
+during the user testing and analytic evaluation stages of this design process.
+After gaining baseline comparisons with the standard system from the users,
+users would then use the proposed design over an extended period of time, at
+least two weeks long. The evaluation would focus on the rate of improvement as
+the user becomes familiar with the input controls, providing a more accurate
+picture of the suitability of the chosen design. In addition, the users would
+be typing a wider variety of phrases and paragraphs as well, using a mixture of
+upper cases, lower cases and punctuation marks to ensure that the widest range
+of possibilities are considered as part of the testing.
+
+This form of evaluation would ensure that the users have the opportunity to
+become familiar and comfortable with these more complex text entry methods, and
+show whether or not this entry method provides the long term improvements to
+typing speed and error prevention do exist for the users.
+% subsection future_evaluation (end)
+
+Overall, the design and prototyping of this potential solution to game
+controller text input provides a wide berth of directions to move forward in.
+The core concept of the grid cursor for selecting characters is flexible enough
+that means that iteration upon it can be performed while keeping to this core.
+Considering the improvements already made from users' first experiences with the
+prototype, then it does suggest that extended exposure with the system for users
+would provide more feedback that can improve the input. As such, it could then
+be determined how well this design solves the original problem of text entry
+with controllers.
 % section future_work_and_recommendations (end)
 \end{document}
