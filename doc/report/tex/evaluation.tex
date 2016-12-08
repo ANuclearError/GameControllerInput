@@ -2,6 +2,138 @@
 \begin{document}
 \section{Analytic Evaluation} % (fold)
 \label{sec:analytic_evaluation}
+\subsection{Evaluation Process} % (fold)
+\label{sub:evaluation_process}
+As discussed in the literature review (Section \ref{sec:literature_review}), the
+two primary metrics to be considered when evaluating the prototype created are:
+\begin{itemize}
+	\item The user's words per minutes (WPM) while typing.
+	\item The error rate of the user while typing.
+\end{itemize}
 
+A simple test was created to examine how users handled the new text entry method
+on their first attempts. While ideally, this would be done over an extended
+period of time rather than being a short term evaluation, time did not permit
+such possibilities. The users were given the phrase `the quick brown fox jumped
+over the lazy dog' to type using three text entry methods.
+\begin{itemize}
+	\item The `standard' entry method found in existing game consoles, acting as
+	the baseline for comparison.
+	\item The `2x2' entry method created after user testing, where the user
+	selects from a 2x2 matrix of characters by moving the right control stick.
+	\item The `3x3' method originally proposed, with the right stick selecting
+	from a 3x3 matrix of characters (utilising both movement and pressing of
+	the stick).
+\end{itemize}
+
+This test was performed twice with the six users who had volunteered, all of
+whom had some technical expertise and experience with controllers. The first
+test was done after implementation of the prototype was completed, allowing for
+an opportunity to tweak the prototype in minor ways to reflect user results in
+addition extra feedback given from the users. Again, users were not given a
+set survey to complete after their testing, instead again opting for a more
+loose conversation instead.
+
+The user testing combined with the initial result below allows for modification
+of the prototype for another round of tests. User issues were mainly focused on
+the sensitivity of the controller, which would treat small movements as actions
+that the users did not always want. In addition, the users expressed desire for
+the directional pad to control movement instead of the left joystick. 
+
+Overall, the evaluating of this evaluating felt like an extension to the user
+testing stage of the design process (Section \ref{sec:user_testing}), being
+somewhat of a merging of the two stages. The initial prototype results can thus
+arguably be considered as a part of user testing also, as well as part of this
+evaluation.
+% subsection evaluation_process (end)
+
+\subsection{Results} % (fold)
+\label{sub:results}
+\subsubsection{Initial Prototype} % (fold)
+\label{ssub:initial_prototype}
+\begin{table}[H]
+	\centering
+	\begin{tabular}{| l | l | l | l | l | l | l |}
+	 \hline
+	 \textbf{User} & \multicolumn{2}{c|}{\textbf{Standard}} &
+	 \multicolumn{2}{c|}{\textbf{2x2}} & \multicolumn{2}{c|}{\textbf{3x3}} \\
+	 \cline{2-3} \cline{4-5} \cline{6-7}
+	  & Time (s) & Errors & Time (s) & Errors & Time (s) & Errors\\
+	 \hline
+	 1 & 69.215 & 3 &  &  & 70.191 & 7 \\
+	 2 & 83.228 & 5 & 81.089 & 1 & 96.185 & 11 \\
+	 3 & 144.9 & 1 & 173.039 & 13 & 170.012 & 33 \\
+	 4 & 73.592 & 3 & 73.024 & 1 & 108.111 & 20 \\
+	 5 & 125.988 & 7 & 144.149 & 6 & 129.349 & 11 \\
+	 6 & 94.494 & 4 & 94.42 & 4 & 132.525 & 15 \\
+	 \hline
+	 Average & 98.57 & 3.83 & 105.88 & 4.83 & 117.73 & 16.17 \\
+	 \hline
+	\end{tabular}
+	\caption{The results obtained from the initial prototype after basic
+	user testing.}
+\end{table}
+% subsubsection initial_prototype (end)
+
+\subsubsection{Modified Prototype} % (fold)
+\label{ssub:modified_prototype}
+\begin{table}[H]
+	\centering
+	\begin{tabular}{| l | l | l | l | l | l | l |}
+	 \hline
+	 \textbf{User} & \multicolumn{2}{c|}{\textbf{Standard}} &
+	 \multicolumn{2}{c|}{\textbf{2x2}} & \multicolumn{2}{c|}{\textbf{3x3}} \\
+	 \cline{2-3} \cline{4-5} \cline{6-7}
+	 & Time (s) & Errors & Time (s) & Errors & Time (s) & Errors \\
+	 \hline
+	 1 & 48.226 & 1 & 61.123 & 3 & 89.552 & 17 \\
+	 2 & 62.779 & 0 & 69.419 & 0 & 90.056 & 13 \\
+	 3 & 64.8 & 1 & 71.435 & 2 & 88.442 & 7 \\
+	 4 & 52.342 & 0 & 55.225 & 1 & 69.937 & 4 \\
+	 5 & 65.815 & 5 & 62.724 & 9 & 74.874 & 20 \\
+	 6 & 61.819 & 0 & 70.57 & 0 & 81.162 & 8 \\
+	 \hline
+	 Average & 59.30 & 1.17 & 65.08 & 2.50 & 82.34 & 11.50 \\
+	 \hline
+	\end{tabular}
+	\caption{The results obtained from the prototype modified after user
+	testing and previous test.}
+\end{table}
+% subsubsection modified_prototype (end)
+% subsection results (end)
+
+\subsection{Analysis} % (fold)
+\label{sub:analysis}
+Overall, the results show that for user's initial experiences with the
+prototypes does show that a learning curve exists with the increasingly complex
+entry methods.  Users were generally more comfortable with the 2x2 method rather
+than the 3x3 method, citing continuing issues with the 8-way joystick movement
+as the main source. Since the test was designed to be a phrase making maximum
+use of the keyboard, many users struggled with adding the full stop punctuation
+to the end of the phrase, since it was in the bottom-right corner of the
+keyboard. 
+
+It was interesting to note that through all input methods, some users needed
+time to recalibrate themselves when it came to moving the cursor, sometimes
+forgetting where the key they desire is, despite keeping to the QWERTY layout
+which should already be familiar to the users.
+
+Users felt that the 2x2 was a better implementation of the ideas brought
+forward by this design process than the 3x3 method that was the initial concept
+at the start of design. However, there was some consensus that this was not
+automatically an issue with the concept itself, but potentially just a problem
+with implementation. Further tweaking and experimenting with a variety of
+controllers would be required to confirm this.
+
+Overall, it is clear that users cannot immediately transition from the
+traditional input method to the styles proposed by this design process. However,
+it is the belief of the designers, based on their own extended use of the
+prototype during development, that users will see improvements to the times
+obtained during evaluation if given the ability to use the system for a longer
+period of time. Further work should also be done in order to perfect the 8-way
+controller movement, which is the primary issue for users. However, these
+issues did not exist for the 2x2 method, which required only 4 directions of
+movement instead, which made typing easier.
+% subsection analysis (end)
 % section analytic_evaluation (end)
 \end{document}
