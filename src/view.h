@@ -38,8 +38,9 @@ void render_controls(int size);
  * @param input the input to be displayed
  * @param prompt the prompt that is to be displayed
  * @param pos the position of the caret in text entry
+ * @param benchmark whether or not the benchmark is being performed.
  */
-void render_input(char input[], char prompt[], int pos);
+void render_input(char input[], char prompt[], int pos, bool benchmark);
 
 /**
  * Renders a line underneath characters that are not correct.

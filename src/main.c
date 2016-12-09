@@ -42,7 +42,7 @@ char input[64];
 /**
  * The prompt the user should type in to measure efficiency
  */
-char prompt[64] = "the quick brown fox jumped over the lazy dog.";
+char prompt[64] = "the";
 
 /**
  * The position where text is being entered.
@@ -78,6 +78,11 @@ Action move_action;
  * The action for selecting.
  */
  Action select_action;
+
+/**
+ * Whether or not benchmarking should be done.
+ */
+ bool benchmark = false;
 
 /**
  * Returns the mode that the given position in keyboard matrix corresponds to.
@@ -124,7 +129,7 @@ char get_selected_key()
 void space()
 {
     input[pos]= ' ';
-    if (input[pos] != prompt[pos])
+    if (input[pos] != prompt[pos] && benchmark)
     {
         errors++;
         printf("Error %d\n", errors);
@@ -144,17 +149,37 @@ void backspace()
 /**
  * Returns if the user's entered text matches the given prompt.
  */
-bool enter()
+void enter()
 {
-    if(strcmp(input, prompt) == 0)
+    bool clear = false;
+    if (benchmark)
     {
-        Uint32 time = SDL_GetTicks() - start_time;
-        printf("Time taken %d Errors %d\n", time, errors);
-        return true;
+        if (strcmp(input, prompt) == 0)
+        {
+            Uint32 time = SDL_GetTicks() - start_time;
+            printf("Time taken %d Errors %d\n", time, errors);
+            clear = true;
+        }
     }
-    return false;
+    else
+    {
+        clear = true;
+    }
+
+    if (clear)
+    {
+        for (int i = 0; i < pos; i++)
+        {
+            input[i] = '\0';
+        }
+        pos = 0;
+        errors = 0;        
+    }
 }
 
+/**
+ * Handles the input, updating the input string and related issues
+ */
 void handle_input()
 {
     if (pos == 0)
@@ -166,7 +191,7 @@ void handle_input()
     if (pos < 127 && c != '\0')
     {
         input[pos] = c;
-        if (input[pos] != prompt[pos])
+        if (input[pos] != prompt[pos] && benchmark)
         {
             errors++;
             printf("Error %d\n", errors);
@@ -182,7 +207,7 @@ void refresh()
 {
     clear_render();
     render_controls(k_cursor.size);
-    render_input(input, prompt, pos);
+    render_input(input, prompt, pos, benchmark);
     for (int i = 0; i < ROWS; ++i)
     {
         for (int j = 0; j < COLS; ++j)
@@ -235,9 +260,24 @@ bool splash()
  */
 int main(int argc, char* args[])
 {
-    if (argc > 1)
+    bool bench_arg = false;
+    bool size_arg = false;
+    int i = 1;
+    while (i < argc && !bench_arg && !size_arg)
     {
-        k_cursor.size = atoi(args[1]);
+        if ((strcmp(args[i], "--benchmark") == 0 || strcmp(args[i], "-b") == 0)
+            && !bench_arg)
+        {
+            benchmark = true;
+            bench_arg = false;
+        }
+
+        int val = atoi(args[i]);
+        if (val > 0 && val < 4 && !size_arg)
+        {
+            k_cursor.size = val;
+        }
+        i++;
     }
 
     // Init everything
@@ -250,6 +290,12 @@ int main(int argc, char* args[])
     {
         printf("Failed to initialise.\n");
         return -1;
+    }
+
+    printf("Cursor size selected: %d\n", k_cursor.size);
+    if (benchmark)
+    {
+        printf("Benchmark will be on.\n");
     }
 
     move_action.act = false;
@@ -289,8 +335,7 @@ int main(int argc, char* args[])
                     bspace_action.act = true;
                     break;
                     case COMMAND_ENTER:
-                    run = !enter();
-                    refresh();
+                    enter();
                     break;
                     default:
                     break;

@@ -116,17 +116,21 @@ void display_splash()
  */
 void render_controls(int size)
 {
-	SDL_Surface* loaded;
+	SDL_Surface* surface;
 	if (size == 1)
-		loaded = SDL_LoadBMP("resources/01-controls.bmp");
+		surface = SDL_LoadBMP("resources/01-controls.bmp");
 	else if (size == 2)
-		loaded = SDL_LoadBMP("resources/02-controls.bmp");
+		surface = SDL_LoadBMP("resources/02-controls.bmp");
 	else
-		loaded = SDL_LoadBMP("resources/03-controls.bmp");
+		surface = SDL_LoadBMP("resources/03-controls.bmp");
 
-	SDL_Texture* icon_texture = SDL_CreateTextureFromSurface(renderer, loaded);
+	texture = SDL_CreateTextureFromSurface(renderer, surface);
 	SDL_Rect rect = {0, WIN_SIZE.h - ICONS_HEIGHT, WIN_SIZE.w, ICONS_HEIGHT};
-	SDL_RenderCopy(renderer, icon_texture, NULL, &rect);
+	SDL_RenderCopy(renderer, texture, NULL, &rect);
+	SDL_FreeSurface(surface);
+    SDL_DestroyTexture(texture);
+    surface = NULL;
+	texture = NULL;	
 }
 
 /**
@@ -135,22 +139,27 @@ void render_controls(int size)
  * @param input the input to be displayed
  * @param prompt the prompt that is to be displayed
  * @param pos the position of the caret in text entry
+ * @param benchmark whether or not the benchmark is being performed.
  */
-void render_input(char input[], char prompt[], int pos)
+void render_input(char input[], char prompt[], int pos, bool err)
 {
-	render_text(prompt, PROMPT_COL);
+	if (err)
+		render_text(prompt, PROMPT_COL);
 	render_text(input, CHAR_COL);
 
 	int i_len = strlen(input);
 	int p_len = strlen(prompt);
 	// int len = (i_len > p_len) ? p_len : i_len;
 
-	for (int i = 0; i < i_len; i++)
+	if (err)
 	{
-		if (i > p_len)
-			render_line(i, i_len, ERR_COL);
-		else if (input[i] != prompt[i])
-			render_line(i, i_len, ERR_COL);
+		for (int i = 0; i < i_len; i++)
+		{
+			if (i > p_len)
+				render_line(i, i_len, ERR_COL);
+			else if (input[i] != prompt[i])
+				render_line(i, i_len, ERR_COL);
+		}
 	}
     render_line(pos, i_len, ENTER_COL);
 }
