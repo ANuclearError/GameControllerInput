@@ -42,7 +42,7 @@ char input[64];
 /**
  * The prompt the user should type in to measure efficiency
  */
-char prompt[64] = "the";
+char prompt[64] = "the quick brown fox jumped over the lazy dog.";
 
 /**
  * The position where text is being entered.
@@ -245,8 +245,11 @@ bool splash()
             }
             else if (e.type == SDL_CONTROLLERBUTTONDOWN)
             {
-                splash = false;
-                return true;
+                if (e.cbutton.button == SDL_CONTROLLER_BUTTON_START)
+                {
+                    splash = false;
+                    return true;
+                }
             }
         }
     }
@@ -307,7 +310,9 @@ int main(int argc, char* args[])
     select_action.act = false;
     select_action.last = SDL_GetTicks();
 
-    bool run = splash();
+    bool run = true;
+    if (benchmark)
+        run = splash();
     SDL_Delay(100);
     refresh();
 
