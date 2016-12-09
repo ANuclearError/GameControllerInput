@@ -66,7 +66,7 @@ bool view_init()
         return false;
     }
 
-    font = TTF_OpenFont("consola.ttf", 48);
+    font = TTF_OpenFont("resources/consola.ttf", 48);
     if (font == NULL)
     {
         printf("TTF_Error opening font: %s\n", TTF_GetError());
@@ -95,12 +95,38 @@ bool view_init()
 	return true;
 }
 
+/**
+ * Displays a splash screen before instructions before starting text entry.
+ */
 void display_splash()
 {
-	SDL_Surface* loaded = SDL_LoadBMP("instructions.bmp");
+	SDL_Surface* loaded = SDL_LoadBMP("resources/instructions.bmp");
 	SDL_Surface* screen = SDL_GetWindowSurface(window);
 	SDL_BlitSurface(loaded, NULL, screen, NULL);
 	SDL_UpdateWindowSurface(window);
+	SDL_FreeSurface(loaded);
+}
+
+/**
+ * Displays the controls for the text input based on the given size of the
+ * cursor.
+ *
+ * @param size the size of the cursor, which affects the controls of the
+ * keyboard.
+ */
+void render_controls(int size)
+{
+	SDL_Surface* loaded;
+	if (size == 1)
+		loaded = SDL_LoadBMP("resources/01-controls.bmp");
+	else if (size == 2)
+		loaded = SDL_LoadBMP("resources/02-controls.bmp");
+	else
+		loaded = SDL_LoadBMP("resources/03-controls.bmp");
+
+	SDL_Texture* icon_texture = SDL_CreateTextureFromSurface(renderer, loaded);
+	SDL_Rect rect = {0, WIN_SIZE.h - ICONS_HEIGHT, WIN_SIZE.w, ICONS_HEIGHT};
+	SDL_RenderCopy(renderer, icon_texture, NULL, &rect);
 }
 
 /**

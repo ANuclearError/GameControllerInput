@@ -18,12 +18,19 @@
  */
 bool view_init();
 
+/**
+ * Displays a splash screen before instructions before starting text entry.
+ */
 void display_splash();
 
 /**
- * Clears the current screen.
+ * Displays the controls for the text input based on the given size of the
+ * cursor.
+ *
+ * @param size the size of the cursor, which affects the controls of the
+ * keyboard.
  */
-void clear_render();
+void render_controls(int size);
 
 /**
  * Renders the input text and prompt.
@@ -60,6 +67,11 @@ void render_text(char text[], SDL_Color colour);
  * @param mode the mode this key is in (see Mode in Keyboard.h)
  */
 void render_key(int x, int y, char key, int mode);
+
+/**
+ * Clears the current screen.
+ */
+void clear_render();
 
 /**
  * Refreshes the display to match current situation.

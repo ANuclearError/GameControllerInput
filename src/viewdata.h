@@ -38,9 +38,14 @@ const int GAP = 5;
 const int TEXT_BOX_HEIGHT = 100;
 
 /**
+ * The height of image displaying icons.
+ */
+const int ICONS_HEIGHT = 130;
+
+/**
  * The size of the main window.
  */
-const struct Size WIN_SIZE = {1555, 525};
+const struct Size WIN_SIZE = {1555, 655};
 
 /**
  * The size of the keys.

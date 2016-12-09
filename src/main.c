@@ -181,6 +181,7 @@ void handle_input()
 void refresh()
 {
     clear_render();
+    render_controls(k_cursor.size);
     render_input(input, prompt, pos);
     for (int i = 0; i < ROWS; ++i)
     {
