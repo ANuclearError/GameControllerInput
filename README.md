@@ -1,4 +1,4 @@
-# CS548 Assignment
+# GameControllerInput
 ## Synopsis
 A prototype of a novel method of text input utilising game controllers. The
 text input revolves around the use of the right control stick to select from a
